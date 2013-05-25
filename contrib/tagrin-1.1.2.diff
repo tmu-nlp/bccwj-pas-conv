@@ -1,0 +1,99 @@
+--- tagrin.tcl	2006-07-29 23:17:06.000000000 +0900
++++ tagrin.tcl.new	2012-10-05 23:38:22.000000000 +0900
+@@ -1,4 +1,4 @@
+-#!/usr/local/bin/wish8.4
++#!/opt/local/bin/wish8.5 -encoding euc-jp
+ 
+ #!/bin/sh
+ # the next line restarts using wish \
+@@ -2944,25 +2954,25 @@
+     global tcl_platform data env tagdata
+ 
+     # 個人の設定ファイルを開く
+-    switch $tcl_platform(platform) {
+-	unix {
+-	    if { [catch {source "./.tagrinrc"}] == 0 } {
+-		set data(config) current
+-	    } else {
+-		set tagrinrc_file [format "%s%s" $env(HOME) /.tagrinrc]
+-		puts $tagrinrc_file
+-		if { [catch {source $tagrinrc_file}] != 0 } {		
+-		    Message "Can't open ~/.tagrinrc \n You should save the file."
+-		}
+-		set data(config) home
+-	    }
+-	}
+-	windows {
++    #switch $tcl_platform(platform) {
++	#unix {
++	#    if { [catch {source "./.tagrinrc"}] == 0 } {
++	#	set data(config) current
++	#    } else {
++	#	set tagrinrc_file [format "%s%s" $env(HOME) /.tagrinrc]
++	#	puts $tagrinrc_file
++	#	if { [catch {source $tagrinrc_file}] != 0 } {		
++	#	    Message "Can't open ~/.tagrinrc \n You should save the file."
++	#	}
++	#	set data(config) home
++	#    }
++	#}
++	#windows {
+ 	    if { [catch {source "tagrin.ini"}] != 0 } {
+  		Message "Can't open tagrin.ini \n You should save the file."
+ 	    }
+-	}
+-    }
++	#}
++    #}
+ 
+     set tagdata(tag-list) [list]
+     for {set i 1} {$i <= $tagdata(tag-list-num)} {incr i} {
+@@ -2992,6 +3002,7 @@
+     if {$argc == 1} {
+ 	set file_name [lindex $argv 0]
+ 	if { [catch {set file(id) [open $file_name r]}] == 0 } {
++            fconfigure $file(id) -encoding utf-8
+ 	    set file(name) $file_name
+  	    ReadFile
+ 	    SetData
+@@ -3006,6 +3017,7 @@
+ 	set file(import_file) [lindex $argv 1]
+ 
+ 	if { [catch {set file(import_id) [open $file(import_file) r]}] == 0 } {
++            fconfigure $file(import_id) -encoding utf-8
+ 	    ImportFile
+ 	    close $file(import_id)
+ 	    SetData
+@@ -3786,6 +3798,8 @@
+     set file_name [tk_getOpenFile -filetypes $ftypes]
+ 
+     if { [catch {set file(id) [open $file_name r]}] == 0 } {
++        # Force UTF-8 for BCCWJ (komachi 2012/04/10)
++        fconfigure $file(id) -encoding utf-8
+ 	set file(name) $file_name
+ 	ReadFile
+ 	SetData
+@@ -3896,6 +3910,7 @@
+ #    set file(import_file) "sample.xml"
+     
+     if { [catch {set file(import_id) [open $file(import_file) r]}] == 0 } {
++        fconfigure $file(import_id) -encoding utf-8
+ 	ImportFile
+ 	close $file(import_id)
+ 	SetData
+@@ -4435,6 +4450,7 @@
+     }
+ 
+     if { [catch {set file(id) [open $filename w]}] == 0 } {
++        fconfigure $file(id) -encoding utf-8
+ 	SetStatus "Saving..."
+ 	${oodata}::print $file(id)
+ 	close $file(id)
+@@ -4478,6 +4494,7 @@
+ 
+ #     set file(export_file) "test.xml"
+     if { [catch {set file(export_id) [open $file(export_file) w]}] == 0 } {
++        fconfigure $file(export_id) -encoding utf-8
+ 	SetStatus "Exporting..."
+ 	${oodata}::export $file(export_id)
+ 	close $file(export_id)

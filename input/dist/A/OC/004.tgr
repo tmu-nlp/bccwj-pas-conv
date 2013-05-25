@@ -1,0 +1,766 @@
+<text id=OC12_00766m_0>
+<attribute>
+checked	0
+</attribute>
+<lastid>
+136
+</lastid>
+<tags>
+np	id:0	[1.0, 1.11]	id=newid0100;
+np	id:1	[1.13, 1.24]	id=newid0101;
+np	id:2	[1.26, 1.36]	id=newid0102;
+np	id:3	[1.38, 1.45]	id=newid0103;
+np	id:4	[3.2, 3.4]	id=newid0104;
+np	id:5	[3.7, 3.10]	id=newid0105;
+ガ	id:6	[3.7, 3.10]	ln=2;id=newid0106;
+np	id:7	[3.11, 3.13]	id=newid0107;
+np	id:8	[3.14, 3.15]	id=newid0108;
+ニ	id:9	[3.14, 3.15]	ln=2;id=newid0109;
+np	id:10	[3.16, 3.18]	id=newid0110;
+述語	id:11	[3.16, 3.18]	id=2;
+np	id:12	[3.23, 3.25]	id=newid0111;
+述語	id:13	[3.23, 3.25]	id=3;
+np	id:14	[3.26, 3.31]	id=newid0112;
+np	id:15	[3.34, 3.35]	id=newid0113;
+ガ	id:16	[3.34, 3.35]	ln=4;id=newid0114;
+述語	id:17	[3.38, 3.40]	id=4;
+事態	id:18	[5.0, 5.2]	id=10000;
+np	id:19	[5.0, 5.2]	id=newid0115;
+np	id:20	[5.3, 5.5]	id=newid0116;
+np	id:21	[6.0, 6.20]	id=newid0117;
+np	id:22	[6.21, 6.44]	id=newid0118;
+np	id:23	[6.45, 6.48]	id=newid0119;
+述語	id:24	[7.1, 7.3]	id=6;
+np	id:25	[8.0, 8.3]	id=newid0121;
+述語	id:26	[8.1, 8.3]	id=7;
+np	id:27	[8.17, 8.19]	id=newid0122;
+ガ	id:28	[3.26, 3.31]	id=newid0125;ln=3;
+ヲ	id:29	[3.7, 3.10]	id=newid0126;ln=4;
+ニ	id:30	[5.3, 5.5]	id=newid0128;ln=6;
+ヲ	id:31	[5.0, 5.2]	id=newid0129;ln=6;
+ガ	id:32	[1.26, 1.36]	id=newid0130;ln=6;
+ガ	id:33	[3.7, 3.10]	id=newid0132;ln=10000;
+ニ	id:34	[1.26, 1.36]	id=newid0133;ln=10000;
+機能語相当	id:35	[3.5, 3.7]	id=newid0134;
+ガ	id:36	[5.0, 5.2]	id=newid0135;ln=7;
+</tags>
+</text>
+<text id=OC12_00767m_0>
+<attribute>
+checked	0
+</attribute>
+<lastid>
+194
+</lastid>
+<tags>
+np	id:0	[1.0, 1.11]	id=newid0100;
+np	id:1	[1.13, 1.24]	id=newid0101;
+np	id:2	[1.26, 1.36]	id=newid0102;
+np	id:3	[1.38, 1.45]	id=newid0103;
+np	id:4	[3.0, 3.4]	id=newid0104;
+np	id:5	[3.5, 3.7]	id=newid0105;
+np	id:6	[3.8, 3.15]	id=newid0106;
+事態	id:7	[3.23, 3.25]	id=10000;
+np	id:8	[3.23, 3.25]	id=newid0107;
+ガ	id:9	[3.23, 3.25]	ln=2;id=newid0108;
+述語	id:10	[3.26, 3.28]	id=2;
+述語	id:11	[3.30, 3.32]	id=3;
+np	id:12	[5.0, 5.4]	id=newid0109;
+np	id:13	[5.6, 5.9]	id=newid0110;
+述語	id:14	[5.10, 5.12]	id=4;
+np	id:15	[5.12, 5.14]	id=newid0111;
+np	id:16	[5.17, 5.18]	id=newid0112;
+np	id:17	[5.20, 5.23]	id=newid0113;
+np	id:18	[5.24, 5.26]	id=newid0114;
+ヲ	id:19	[5.24, 5.26]	ln=7;id=newid0115;
+述語	id:20	[5.27, 5.32]	id=7;
+np	id:21	[5.33, 5.35]	id=newid0116;
+np	id:22	[6.0, 6.4]	id=newid0117;
+np	id:23	[6.6, 6.9]	id=newid0119;
+事態	id:24	[6.10, 6.12]	id=10001;
+np	id:25	[6.10, 6.12]	id=newid0120;
+述語	id:26	[6.13, 6.15]	id=8;
+np	id:27	[6.16, 6.17]	id=newid0121;
+np	id:28	[6.18, 6.20]	id=newid0122;
+述語	id:29	[6.18, 6.20]	id=9;
+np	id:30	[6.23, 6.25]	id=newid0123;
+np	id:31	[6.27, 6.28]	id=newid0124;
+np	id:32	[6.30, 6.32]	id=newid0125;
+ヲ	id:33	[6.30, 6.32]	ln=10;id=newid0126;
+述語	id:34	[6.33, 6.36]	id=10;
+np	id:35	[6.37, 6.39]	id=newid0127;
+np	id:36	[6.40, 6.41]	id=newid0128;
+np	id:37	[6.42, 6.44]	id=newid0129;
+np	id:38	[6.45, 6.47]	id=newid0131;
+np	id:39	[6.48, 6.50]	id=newid0132;
+np	id:40	[6.52, 6.54]	id=newid0134;
+np	id:41	[6.55, 6.57]	id=newid0136;
+np	id:42	[6.58, 6.60]	id=newid0137;
+np	id:43	[6.64, 6.67]	id=newid0138;
+ニ	id:44	[6.64, 6.67]	ln=13;id=newid0139;
+述語	id:45	[6.68, 6.70]	id=13;
+np	id:46	[6.72, 6.75]	id=newid0140;
+np	id:47	[6.76, 6.77]	id=newid0141;
+ガ	id:48	[6.76, 6.77]	ln=14;id=newid0142;
+np	id:49	[6.78, 6.79]	id=newid0143;
+述語	id:50	[6.80, 6.82]	id=14;
+np	id:51	[6.83, 6.85]	id=newid0144;
+np	id:52	[6.86, 6.87]	id=newid0145;
+述語	id:53	[6.88, 6.91]	id=15;
+np	id:54	[6.94, 6.96]	id=newid0147;
+ヲ	id:55	[6.94, 6.96]	ln=17;id=newid0148;
+述語	id:56	[6.97, 6.99]	id=17;
+np	id:57	[6.100, 6.102]	id=newid0149;
+述語	id:58	[6.100, 6.102]	id=18;
+ニ	id:59	[3.9, 3.15]	id=newid0150;ln=2;
+ガ	id:60	[1.0, 1.11]	id=newid0151;ln=3;
+ヲ	id:61	[3.26, 3.29]	id=newid0152;ln=3;
+助動詞	id:62	[3.32, 3.34]	id=newid0153;
+追加無し	id:63	[3.32, 3.34]	id=newid0154;ln=newid0153;
+ガ	id:64	[5.7, 5.9]	id=newid0155;ln=4;
+機能語相当	id:65	[5.15, 5.17]	id=newid0156;
+ガ	id:66	[1.26, 1.36]	id=newid0157;ln=7;
+述語	id:67	[5.37, 5.39]	id=newid0158;
+ヲ	id:68	[5.34, 5.35]	id=newid0159;ln=newid0158;
+ガ	id:69	[1.26, 1.36]	id=newid0160;ln=newid0158;
+助動詞	id:70	[5.39, 5.40]	id=newid0161;
+追加無し	id:71	[5.39, 5.40]	id=newid0162;ln=newid0161;
+ガ	id:72	[6.0, 6.4]	id=newid0163;ln=8;
+ヲ	id:73	[6.23, 6.25]	id=newid0164;ln=8;
+ガ	id:74	[6.23, 6.25]	id=newid0165;ln=9;
+ガ	id:75	[6.27, 6.28]	id=newid0166;ln=10;
+機能語相当	id:76	[6.62, 6.64]	id=newid0167;
+ガ	id:77	[6.86, 6.87]	id=newid0169;ln=15;
+機能語相当	id:78	[6.92, 6.94]	id=newid0170;
+ニ	id:79	[6.100, 6.102]	id=newid0173;ln=17;
+ガ	id:80	[6.23, 6.25]	id=newid0174;ln=18;
+述語	id:81	[6.106, 6.109]	id=newid0175;
+ガ	id:82	[1.26, 1.36]	id=newid0176;ln=newid0175;
+ヲ	id:83	[6.23, 6.25]	id=newid0177;ln=newid0175;
+助動詞	id:84	[6.109, 6.110]	id=newid0178;
+追加無し	id:85	[6.109, 6.110]	id=newid0179;ln=newid0178;
+ガ	id:86	[3.9, 3.15]	id=newid0180;ln=10000;
+ガ	id:87	[6.0, 6.4]	id=newid0181;ln=10001;
+照応	id:88	[3.0, 3.4]	id=newid0182;
+照応	id:89	[6.0, 6.4]	id=newid0183;ln=newid0182;
+照応	id:90	[3.5, 3.7]	id=newid0184;
+照応	id:91	[3.9, 3.15]	id=newid0185;ln=newid0184;
+照応	id:92	[6.23, 6.25]	id=newid0186;ln=newid0185;
+ハ	id:93	[5.12, 5.14]	id=newid0187;ln=4;
+ガ	id:94	[1.26, 1.36]	id=newid0188;ln=17;
+ガ	id:95	[1.26, 1.36]	id=newid0190;ln=13;
+内容/結果物	id:96	[3.23, 3.25]	id=newid0191;
+事態	id:97	[6.94, 6.96]	id=newid0192;
+ガ	id:98	[6.0, 6.4]	id=newid0193;ln=newid0192;
+</tags>
+</text>
+<text id=OC12_00768m_0>
+<attribute>
+checked	0
+</attribute>
+<lastid>
+167
+</lastid>
+<tags>
+np	id:0	[1.0, 1.11]	id=newid0100;
+np	id:1	[1.13, 1.24]	id=newid0101;
+np	id:2	[1.26, 1.36]	id=newid0102;
+np	id:3	[1.38, 1.45]	id=newid0103;
+np	id:4	[3.0, 3.3]	id=newid0104;
+np	id:5	[3.4, 3.7]	id=newid0105;
+np	id:6	[3.17, 3.18]	id=newid0106;
+np	id:7	[3.21, 3.23]	id=newid0107;
+述語	id:8	[3.21, 3.23]	id=2;
+np	id:9	[4.3, 4.5]	id=newid0108;
+ガ	id:10	[4.3, 4.5]	ln=3;id=newid0109;
+np	id:11	[4.6, 4.11]	id=newid0110;
+述語	id:12	[4.6, 4.11]	id=3;
+np	id:13	[5.0, 5.1]	id=newid0111;
+ガ	id:14	[5.0, 5.1]	ln=4;id=newid0112;
+述語	id:15	[5.2, 5.5]	id=4;
+事態	id:16	[5.5, 5.7]	id=10000;
+np	id:17	[5.5, 5.7]	id=newid0113;
+np	id:18	[5.9, 5.11]	id=newid0114;
+述語	id:19	[5.9, 5.11]	id=5;
+np	id:20	[7.0, 7.2]	id=newid0115;
+述語	id:21	[7.0, 7.2]	id=6;
+np	id:22	[8.0, 8.2]	id=newid0116;
+np	id:23	[8.4, 8.5]	id=newid0117;
+np	id:24	[8.6, 8.7]	id=newid0118;
+述語	id:25	[8.9, 8.12]	id=11;
+述語	id:26	[8.13, 8.15]	id=12;
+np	id:27	[9.2, 9.4]	id=newid0120;
+事態	id:28	[9.6, 9.8]	id=10002;
+np	id:29	[9.6, 9.9]	id=newid0121;
+述語	id:30	[9.12, 9.14]	id=13;
+np	id:31	[10.0, 10.1]	id=newid0122;
+ガ	id:32	[10.0, 10.1]	ln=14;id=newid0123;
+述語	id:33	[10.2, 10.5]	id=14;
+述語	id:34	[10.12, 10.15]	id=15;
+np	id:35	[10.15, 10.19]	id=newid0124;
+np	id:36	[11.5, 11.6]	id=newid0126;
+np	id:37	[11.7, 11.12]	id=newid0127;
+np	id:38	[11.14, 11.16]	id=newid0128;
+述語	id:39	[11.16, 11.18]	id=18;
+np	id:40	[12.4, 12.7]	id=newid0129;
+np	id:41	[12.10, 12.12]	id=newid0130;
+述語	id:42	[12.12, 12.14]	id=19;
+ガ	id:43	[3.5, 3.7]	id=newid0131;ln=2;
+ニ	id:44	[3.17, 3.18]	id=newid0132;ln=2;
+ガ	id:45	[5.5, 5.7]	id=newid0133;ln=5;
+ガ	id:46	[3.9, 3.10]	id=newid0134;ln=6;
+ヲ	id:47	[3.5, 3.7]	id=newid0135;ln=6;
+ガ	id:48	[8.6, 8.8]	id=newid0138;ln=11;
+述語	id:49	[9.10, 9.12]	id=newid0140;
+ガ	id:50	[9.6, 9.9]	id=newid0141;ln=newid0140;
+ガ	id:51	[1.26, 1.36]	id=newid0143;ln=15;
+ガ	id:52	[11.5, 11.6]	id=newid0145;ln=12;
+ガ	id:53	[11.5, 11.6]	id=newid0146;ln=13;
+ガ	id:54	[11.14, 11.16]	id=newid0147;ln=18;
+ハ	id:55	[11.5, 11.6]	id=newid0148;ln=18;
+ニ	id:56	[11.7, 11.12]	id=newid0149;ln=18;
+ガ	id:57	[12.4, 12.9]	id=newid0150;ln=19;
+ヲ	id:58	[5.2, 5.5]	id=newid0151;ln=10000;
+ガ	id:59	[1.26, 1.36]	id=newid0152;ln=10000;
+事態	id:60	[3.5, 3.7]	id=newid0153;
+ガ	id:61	[1.26, 1.36]	id=newid0154;ln=newid0153;
+ガ	id:62	[1.26, 1.36]	id=newid0155;ln=10002;
+ヲ	id:63	[1.26, 1.36]	id=newid0156;ln=10002;
+ハ	id:64	[3.5, 3.7]	id=newid0159;ln=3;
+ヲ	id:65	[10.2, 10.7]	id=newid0162;ln=15;
+内容/結果物	id:66	[5.5, 5.7]	id=newid0163;
+述語	id:67	[7.7, 7.17]	id=newid0164;
+ガ	id:68	[3.9, 3.10]	id=newid0165;ln=newid0164;
+ヲ	id:69	[3.5, 3.7]	id=newid0166;ln=newid0164;
+</tags>
+</text>
+<text id=OC02_00006m_0>
+<attribute>
+checked	0
+</attribute>
+<lastid>
+118
+</lastid>
+<tags>
+np	id:0	[1.0, 1.11]	id=newid0100;
+np	id:1	[1.13, 1.24]	id=newid0101;
+np	id:2	[1.26, 1.36]	id=newid0102;
+np	id:3	[1.38, 1.45]	id=newid0103;
+述語	id:4	[3.5, 3.8]	id=1;
+事態	id:5	[3.9, 3.11]	id=10001;
+np	id:6	[3.9, 3.12]	id=newid0104;
+述語	id:7	[3.12, 3.14]	id=2;
+np	id:8	[4.0, 4.2]	id=newid0105;
+np	id:9	[4.4, 4.7]	id=newid0107;
+述語	id:10	[4.4, 4.7]	id=4;
+述語	id:11	[6.0, 6.2]	id=5;
+ガ	id:12	[3.9, 3.12]	id=newid0108;ln=1;
+ニ	id:13	[3.3, 3.5]	id=newid0109;ln=1;
+ガ	id:14	[3.9, 3.12]	id=newid0110;ln=2;
+ガ	id:15	[4.0, 4.3]	id=newid0111;ln=4;
+ガ	id:16	[3.9, 3.12]	id=newid0112;ln=5;
+ニ	id:17	[3.11, 3.12]	id=newid0113;ln=10001;
+ガ	id:18	[1.26, 1.36]	id=newid0116;ln=10001;
+ヲ	id:19	[1.26, 1.36]	id=newid0117;ln=10001;
+</tags>
+</text>
+<text id=OC02_00007m_0>
+<attribute>
+checked	0
+</attribute>
+<lastid>
+141
+</lastid>
+<tags>
+np	id:0	[1.0, 1.11]	id=newid0100;
+np	id:1	[1.13, 1.24]	id=newid0101;
+np	id:2	[1.26, 1.36]	id=newid0102;
+np	id:3	[1.38, 1.45]	id=newid0103;
+np	id:4	[3.0, 3.7]	id=newid0104;
+np	id:5	[3.8, 3.15]	id=newid0105;
+述語	id:6	[3.16, 3.20]	id=1;
+np	id:7	[3.22, 3.24]	id=newid0107;
+np	id:8	[3.25, 3.35]	id=newid0109;
+述語	id:9	[3.36, 3.39]	id=2;
+述語	id:10	[4.0, 4.6]	id=3;
+np	id:11	[4.8, 4.11]	id=newid0110;
+述語	id:12	[4.8, 4.11]	id=4;
+np	id:13	[4.22, 4.28]	id=newid0111;
+ニ	id:14	[4.22, 4.28]	ln=5;id=newid0112;
+述語	id:15	[4.29, 4.31]	id=5;
+述語	id:16	[5.0, 5.3]	id=6;
+述語	id:17	[5.14, 5.15]	id=7;
+np	id:18	[5.17, 5.19]	id=newid0113;
+np	id:19	[7.0, 7.3]	id=newid0114;
+事態	id:20	[7.3, 7.5]	id=10005;
+np	id:21	[7.3, 7.5]	id=newid0115;
+np	id:22	[8.0, 8.9]	id=newid0116;
+np	id:23	[8.9, 8.49]	id=newid0117;
+ガ	id:24	[1.0, 1.11]	id=newid0118;ln=1;
+ヲ	id:25	[3.0, 3.15]	id=newid0119;ln=1;
+ガ	id:26	[1.0, 1.11]	id=newid0122;ln=3;
+ガ	id:27	[1.0, 1.11]	id=newid0123;ln=4;
+ニ	id:28	[3.25, 3.35]	id=newid0124;ln=4;
+機能語相当	id:29	[5.8, 5.10]	id=newid0129;
+ガ	id:30	[1.0, 1.11]	id=newid0130;ln=7;
+機能語相当	id:31	[5.17, 5.19]	id=newid0131;
+ガ	id:32	[1.13, 1.24]	id=newid0132;ln=10005;
+ガ	id:33	[3.25, 3.35]	id=newid0134;ln=2;
+ガ	id:34	[3.25, 3.35]	id=newid0135;ln=6;
+ガ	id:35	[3.25, 3.35]	id=newid0136;ln=5;
+ニ	id:36	[3.25, 3.35]	id=newid0137;ln=3;
+ヲ	id:37	[7.0, 7.3]	id=newid0138;ln=10005;
+照応	id:38	[7.0, 7.3]	id=newid0139;
+照応	id:39	[8.0, 8.49]	id=newid0140;ln=newid0139;
+</tags>
+</text>
+<text id=OC02_00008m_0>
+<attribute>
+checked	0
+</attribute>
+<lastid>
+130
+</lastid>
+<tags>
+np	id:0	[1.0, 1.11]	id=newid0100;
+np	id:1	[1.13, 1.24]	id=newid0101;
+np	id:2	[1.26, 1.36]	id=newid0102;
+np	id:3	[1.38, 1.45]	id=newid0103;
+np	id:4	[3.0, 3.7]	id=newid0104;
+ヲ	id:5	[3.0, 3.7]	ln=1;id=newid0105;
+述語	id:6	[3.8, 3.11]	id=1;
+述語	id:7	[3.15, 3.18]	id=2;
+ヲ	id:8	[3.15, 3.18]	ln=3;id=newid0106;
+述語	id:9	[3.19, 3.23]	id=3;
+述語	id:10	[3.25, 3.28]	id=4;
+np	id:11	[3.28, 3.30]	id=newid0107;
+ガ	id:12	[3.28, 3.30]	ln=5;id=newid0108;
+述語	id:13	[3.31, 3.33]	id=5;
+np	id:14	[4.0, 4.2]	id=newid0109;
+np	id:15	[6.0, 6.4]	id=newid0111;
+np	id:16	[6.6, 6.9]	id=newid0112;
+ガ	id:17	[1.0, 1.11]	id=newid0113;ln=1;
+ガ	id:18	[1.0, 1.11]	id=newid0114;ln=2;
+ヲ	id:19	[3.0, 3.7]	id=newid0115;ln=2;
+ガ	id:20	[1.0, 1.11]	id=newid0116;ln=3;
+ヲ	id:21	[3.0, 3.7]	id=newid0117;ln=4;
+ガ	id:22	[1.0, 1.11]	id=newid0118;ln=4;
+機能語相当	id:23	[3.13, 3.14]	id=newid0123;
+述語	id:24	[4.4, 4.10]	id=newid0126;
+ガ	id:25	[1.13, 1.24]	id=newid0127;ln=newid0126;
+ニ	id:26	[1.0, 1.11]	id=newid0128;ln=newid0126;
+ヲ	id:27	[4.0, 4.3]	id=newid0129;ln=newid0126;
+</tags>
+</text>
+<text id=OC02_00009m_0>
+<attribute>
+checked	0
+</attribute>
+<lastid>
+244
+</lastid>
+<tags>
+np	id:0	[1.0, 1.11]	id=newid0100;
+np	id:1	[1.13, 1.24]	id=newid0101;
+np	id:2	[1.26, 1.36]	id=newid0102;
+np	id:3	[1.38, 1.45]	id=newid0103;
+np	id:4	[3.0, 3.12]	id=newid0104;
+np	id:5	[3.13, 3.15]	id=newid0105;
+np	id:6	[3.16, 3.18]	id=newid0106;
+np	id:7	[3.19, 3.29]	id=newid0107;
+np	id:8	[3.30, 3.32]	id=newid0108;
+np	id:9	[3.33, 3.35]	id=newid0109;
+np	id:10	[3.37, 3.39]	id=newid0110;
+np	id:11	[3.39, 3.46]	id=newid0111;
+np	id:12	[3.47, 3.50]	id=newid0112;
+np	id:13	[4.0, 4.5]	id=newid0113;
+述語	id:14	[4.1, 4.5]	id=2;
+事態	id:15	[5.0, 5.2]	id=10002;
+np	id:16	[5.0, 5.6]	id=newid0114;
+np	id:17	[5.7, 5.9]	id=newid0115;
+ニ	id:18	[5.7, 5.9]	ln=3;id=newid0116;
+述語	id:19	[5.10, 5.12]	id=3;
+np	id:20	[5.15, 5.17]	id=newid0117;
+事態	id:21	[5.18, 5.20]	id=10003;
+np	id:22	[5.18, 5.22]	id=newid0118;
+述語	id:23	[5.18, 5.22]	id=4;
+述語	id:24	[6.1, 6.5]	id=5;
+np	id:25	[8.0, 8.6]	id=newid0119;
+ガ	id:26	[8.0, 8.6]	ln=6;id=newid0120;
+np	id:27	[8.7, 8.9]	id=newid0121;
+述語	id:28	[8.7, 8.9]	id=6;
+np	id:29	[8.14, 8.19]	id=newid0122;
+ニ	id:30	[8.14, 8.19]	ln=7;id=newid0123;
+np	id:31	[8.20, 8.23]	id=newid0124;
+ガ	id:32	[8.20, 8.23]	ln=7;id=newid0125;
+np	id:33	[8.24, 8.26]	id=newid0126;
+述語	id:34	[8.24, 8.26]	id=7;
+np	id:35	[9.0, 9.3]	id=newid0127;
+np	id:36	[9.5, 9.10]	id=newid0128;
+np	id:37	[9.11, 9.13]	id=newid0129;
+np	id:38	[9.14, 9.16]	id=newid0130;
+np	id:39	[9.17, 9.20]	id=newid0131;
+np	id:40	[9.21, 9.23]	id=newid0132;
+np	id:41	[9.24, 9.28]	id=newid0133;
+np	id:42	[9.29, 9.31]	id=newid0135;
+np	id:43	[9.33, 9.36]	id=newid0136;
+ヲ	id:44	[9.33, 9.36]	ln=9;id=newid0137;
+述語	id:45	[9.37, 9.39]	id=9;
+述語	id:46	[9.43, 9.46]	id=10;
+述語	id:47	[9.47, 9.49]	id=11;
+np	id:48	[10.0, 10.1]	id=newid0138;
+np	id:49	[10.3, 10.6]	id=newid0140;
+ガ	id:50	[10.3, 10.6]	ln=12;id=newid0141;
+np	id:51	[10.7, 10.11]	id=newid0142;
+述語	id:52	[10.13, 10.16]	id=12;
+np	id:53	[10.17, 10.19]	id=newid0143;
+np	id:54	[10.21, 10.24]	id=newid0144;
+述語	id:55	[10.25, 10.28]	id=13;
+np	id:56	[10.29, 10.33]	id=newid0145;
+np	id:57	[10.33, 10.47]	id=newid0146;
+述語	id:58	[10.50, 10.54]	id=14;
+np	id:59	[10.54, 10.56]	id=newid0147;
+事態	id:60	[10.62, 10.64]	id=10010;
+np	id:61	[10.60, 10.64]	id=newid0148;
+np	id:62	[10.68, 10.70]	id=newid0149;
+np	id:63	[10.76, 10.79]	id=newid0150;
+事態	id:64	[10.80, 10.82]	id=10012;
+np	id:65	[10.79, 10.87]	id=newid0151;
+np	id:66	[11.0, 11.6]	id=newid0152;
+np	id:67	[11.7, 11.12]	id=newid0153;
+np	id:68	[12.0, 12.4]	id=newid0154;
+np	id:69	[12.5, 12.7]	id=newid0155;
+np	id:70	[12.8, 12.10]	id=newid0156;
+np	id:71	[13.0, 13.3]	id=newid0157;
+述語	id:72	[13.4, 13.7]	id=18;
+述語	id:73	[3.37, 3.39]	id=newid0158;
+ガ	id:74	[3.39, 3.46]	id=newid0159;ln=newid0158;
+述語	id:75	[3.47, 3.50]	id=newid0160;
+ヲ	id:76	[1.26, 1.36]	id=newid0162;ln=newid0160;
+助動詞	id:77	[3.50, 3.52]	id=newid0164;
+追加無し	id:78	[3.50, 3.52]	id=newid0165;ln=newid0164;
+ガ	id:79	[5.0, 5.6]	id=newid0167;ln=3;
+ヲ	id:80	[5.15, 5.17]	id=newid0168;ln=4;
+ニ	id:81	[1.13, 1.24]	id=newid0171;ln=5;
+述語	id:82	[8.14, 8.16]	id=newid0174;
+ガ	id:83	[8.16, 8.19]	id=newid0175;ln=newid0174;
+ニ	id:84	[9.17, 9.28]	id=newid0176;ln=9;
+ガ	id:85	[8.24, 8.26]	id=newid0178;ln=10;
+ガ	id:86	[1.0, 1.11]	id=newid0179;ln=11;
+ヲ	id:87	[9.33, 9.36]	id=newid0181;ln=12;
+ヲ	id:88	[10.29, 10.33]	id=newid0182;ln=13;
+ガ	id:89	[10.3, 10.6]	id=newid0183;ln=13;
+ガ	id:90	[10.3, 10.6]	id=newid0184;ln=14;
+ヲ	id:91	[9.33, 9.36]	id=newid0185;ln=14;
+述語	id:92	[10.71, 10.74]	id=newid0186;
+ヲ	id:93	[10.76, 10.79]	id=newid0187;ln=newid0186;
+ニ	id:94	[10.68, 10.70]	id=newid0188;ln=newid0186;
+ガ	id:95	[1.26, 1.36]	id=newid0189;ln=newid0186;
+助動詞	id:96	[10.74, 10.76]	id=newid0191;
+追加無し	id:97	[10.74, 10.76]	id=newid0192;ln=newid0191;
+ガ	id:98	[10.76, 10.79]	id=newid0193;ln=18;
+ヲ	id:99	[3.39, 3.42]	id=newid0196;ln=10002;
+ヲ	id:100	[5.15, 5.17]	id=newid0197;ln=10003;
+モノ	id:101	[9.1, 9.3]	id=newid0200;
+ヲ	id:102	[1.26, 1.36]	id=newid0203;ln=10010;
+事態	id:103	[10.76, 10.78]	id=newid0204;
+ガ	id:104	[10.82, 10.83]	id=newid0208;ln=10012;
+ヲ	id:105	[9.33, 9.36]	id=newid0209;ln=10012;
+照応	id:106	[3.7, 3.12]	id=newid0210;
+照応	id:107	[9.5, 9.10]	id=newid0211;ln=newid0210;
+照応	id:108	[3.26, 3.29]	id=newid0212;
+照応	id:109	[4.1, 4.3]	id=newid0213;ln=newid0212;
+照応	id:110	[9.17, 9.20]	id=newid0214;ln=newid0213;
+照応	id:111	[10.21, 10.24]	id=newid0215;ln=newid0214;
+照応	id:112	[12.1, 12.4]	id=newid0216;ln=newid0215;
+照応	id:113	[11.1, 11.6]	id=newid0217;ln=newid0211;
+照応	id:114	[3.16, 3.18]	id=newid0218;
+照応	id:115	[3.33, 3.35]	id=newid0219;ln=newid0218;
+照応	id:116	[9.14, 9.16]	id=newid0220;ln=newid0219;
+照応	id:117	[9.24, 9.26]	id=newid0221;ln=newid0220;
+照応	id:118	[11.10, 11.12]	id=newid0222;ln=newid0221;
+照応	id:119	[12.8, 12.10]	id=newid0223;ln=newid0222;
+ガ	id:120	[10.3, 10.6]	id=newid0225;ln=9;
+ヲ	id:121	[9.33, 9.36]	id=newid0226;ln=newid0204;
+内容/結果物	id:122	[3.39, 3.42]	id=newid0227;
+内容/結果物	id:123	[8.20, 8.23]	id=newid0228;
+内容/結果物	id:124	[9.33, 9.36]	id=newid0229;
+ガ	id:125	[3.39, 3.46]	id=newid0230;ln=newid0160;
+ハ	id:126	[3.19, 3.35]	id=newid0231;ln=newid0158;
+ガ	id:127	[5.2, 5.6]	id=newid0232;ln=10002;
+ガ	id:128	[10.68, 10.70]	id=newid0233;ln=newid0204;
+ガ	id:129	[10.3, 10.6]	id=newid0234;ln=2;
+ガ	id:130	[10.3, 10.6]	id=newid0235;ln=4;
+ガ	id:131	[10.3, 10.6]	id=newid0236;ln=5;
+ガ	id:132	[10.3, 10.6]	id=newid0237;ln=10003;
+事態	id:133	[9.33, 9.36]	id=newid0238;
+ニ	id:134	[9.17, 9.28]	id=newid0239;ln=newid0238;
+ガ	id:135	[10.3, 10.6]	id=newid0240;ln=newid0238;
+ガ	id:136	[10.3, 10.6]	id=newid0241;ln=10010;
+ニ	id:137	[10.3, 10.6]	id=newid0242;ln=newid0204;
+ニ	id:138	[10.68, 10.70]	id=newid0243;ln=10012;
+</tags>
+</text>
+<text id=OC02_00010m_0>
+<attribute>
+checked	0
+</attribute>
+<lastid>
+130
+</lastid>
+<tags>
+np	id:0	[1.0, 1.11]	id=newid0100;
+np	id:1	[1.13, 1.24]	id=newid0101;
+np	id:2	[1.26, 1.36]	id=newid0102;
+np	id:3	[1.38, 1.45]	id=newid0103;
+np	id:4	[3.0, 3.6]	id=newid0104;
+np	id:5	[3.8, 3.9]	id=newid0105;
+述語	id:6	[3.8, 3.9]	id=1;
+np	id:7	[5.0, 5.6]	id=newid0106;
+述語	id:8	[5.7, 5.9]	id=2;
+np	id:9	[5.10, 5.12]	id=newid0107;
+述語	id:10	[5.14, 5.16]	id=3;
+np	id:11	[5.16, 5.18]	id=newid0108;
+述語	id:12	[5.19, 5.22]	id=4;
+np	id:13	[5.22, 5.25]	id=newid0109;
+述語	id:14	[5.22, 5.25]	id=5;
+np	id:15	[6.0, 6.3]	id=newid0110;
+np	id:16	[6.4, 6.6]	id=newid0111;
+np	id:17	[6.11, 6.13]	id=newid0113;
+述語	id:18	[6.14, 6.16]	id=7;
+np	id:19	[7.0, 7.3]	id=newid0114;
+述語	id:20	[7.3, 7.4]	id=8;
+述語	id:21	[7.7, 7.10]	id=9;
+ガ	id:22	[3.0, 3.6]	id=newid0115;ln=1;
+ガ	id:23	[5.10, 5.12]	id=newid0116;ln=2;
+ガ	id:24	[1.26, 1.36]	id=newid0117;ln=3;
+ヲ	id:25	[1.26, 1.36]	id=newid0118;ln=3;
+ガ	id:26	[5.16, 5.18]	id=newid0119;ln=4;
+ガ	id:27	[3.0, 3.6]	id=newid0120;ln=5;
+述語	id:28	[6.7, 6.11]	id=newid0122;
+ヲ	id:29	[6.4, 6.6]	id=newid0123;ln=newid0122;
+ガ	id:30	[1.26, 1.36]	id=newid0124;ln=newid0122;
+ガ	id:31	[6.11, 6.13]	id=newid0125;ln=7;
+ヲ	id:32	[7.1, 7.3]	id=newid0126;ln=8;
+ガ	id:33	[1.13, 1.24]	id=newid0127;ln=8;
+ガ	id:34	[1.26, 1.36]	id=newid0128;ln=9;
+ズレ	id:35	[3.0, 3.3]	id=newid0129;
+</tags>
+</text>
+<text id=OC02_00011m_0>
+<attribute>
+checked	0
+</attribute>
+<lastid>
+165
+</lastid>
+<tags>
+np	id:0	[1.0, 1.11]	id=newid0100;
+np	id:1	[1.13, 1.24]	id=newid0101;
+np	id:2	[1.26, 1.36]	id=newid0102;
+np	id:3	[1.38, 1.45]	id=newid0103;
+np	id:4	[3.0, 3.5]	id=newid0104;
+np	id:5	[3.6, 3.15]	id=newid0105;
+np	id:6	[3.19, 3.22]	id=newid0106;
+ヲ	id:7	[3.19, 3.22]	ln=2;id=newid0107;
+述語	id:8	[3.23, 3.25]	id=2;
+事態	id:9	[3.32, 3.34]	id=10000;
+np	id:10	[3.29, 3.36]	id=newid0108;
+np	id:11	[3.39, 3.40]	id=newid0110;
+述語	id:12	[3.41, 3.43]	id=3;
+np	id:13	[4.0, 4.8]	id=newid0112;
+事態	id:14	[5.0, 5.2]	id=10001;
+np	id:15	[5.0, 5.3]	id=newid0113;
+ガ	id:16	[5.0, 5.3]	ln=5;id=newid0114;
+述語	id:17	[5.4, 5.6]	id=5;
+述語	id:18	[5.7, 5.11]	id=6;
+np	id:19	[7.2, 7.5]	id=newid0115;
+述語	id:20	[7.6, 7.8]	id=7;
+事態	id:21	[8.0, 8.2]	id=10002;
+np	id:22	[8.0, 8.3]	id=newid0116;
+np	id:23	[8.6, 8.7]	id=newid0117;
+述語	id:24	[8.8, 8.10]	id=8;
+np	id:25	[8.15, 8.16]	id=newid0118;
+ガ	id:26	[8.15, 8.16]	ln=9;id=newid0119;
+np	id:27	[8.17, 8.20]	id=newid0120;
+述語	id:28	[8.20, 8.23]	id=9;
+np	id:29	[8.25, 8.27]	id=newid0121;
+述語	id:30	[8.28, 8.33]	id=10;
+機能語相当	id:31	[3.17, 3.19]	id=newid0123;
+ガ	id:32	[1.0, 1.11]	id=newid0124;ln=2;
+ガ	id:33	[1.26, 1.36]	id=newid0125;ln=3;
+ガ	id:34	[1.0, 1.11]	id=newid0126;ln=6;
+ニ	id:35	[1.13, 1.24]	id=newid0127;ln=6;
+ガ	id:36	[7.2, 7.5]	id=newid0128;ln=7;
+ヲ	id:37	[8.0, 8.3]	id=newid0129;ln=8;
+ガ	id:38	[8.6, 8.7]	id=newid0130;ln=8;
+ガ	id:39	[1.13, 1.24]	id=newid0132;ln=10;
+モノ	id:40	[3.19, 3.22]	id=newid0141;
+モノ	id:41	[3.2, 3.5]	id=newid0142;
+ヲ	id:42	[3.29, 3.32]	id=newid0145;ln=10000;
+ガ	id:43	[1.0, 1.11]	id=newid0146;ln=10000;
+モノ	id:44	[7.2, 7.5]	id=newid0149;
+ガ	id:45	[1.13, 1.24]	id=newid0150;ln=10002;
+ヲ	id:46	[5.0, 5.3]	id=newid0155;ln=6;
+ニ	id:47	[7.2, 7.5]	id=newid0157;ln=9;
+ヲ	id:48	[3.41, 3.49]	id=newid0158;ln=10001;
+ヲ	id:49	[3.41, 3.49]	id=newid0159;ln=10002;
+ガ	id:50	[1.0, 1.11]	id=newid0160;ln=10001;
+照応	id:51	[3.19, 3.22]	id=newid0161;
+照応	id:52	[3.29, 3.32]	id=newid0162;ln=newid0161;
+照応	id:53	[7.2, 7.5]	id=newid0163;ln=newid0162;
+モノ	id:54	[3.29, 3.32]	id=newid0164;
+</tags>
+</text>
+<text id=OC02_00012m_0>
+<attribute>
+checked	0
+</attribute>
+<lastid>
+246
+</lastid>
+<tags>
+np	id:0	[1.0, 1.11]	id=newid0100;
+np	id:1	[1.13, 1.24]	id=newid0101;
+np	id:2	[1.26, 1.36]	id=newid0102;
+np	id:3	[1.38, 1.45]	id=newid0103;
+np	id:4	[3.0, 3.3]	id=newid0104;
+述語	id:5	[3.6, 3.7]	id=1;
+np	id:6	[3.13, 3.16]	id=newid0105;
+事態	id:7	[3.17, 3.19]	id=10000;
+np	id:8	[3.17, 3.20]	id=newid0106;
+np	id:9	[3.21, 3.22]	id=newid0107;
+ニ	id:10	[3.21, 3.22]	ln=2;id=newid0108;
+述語	id:11	[3.23, 3.28]	id=2;
+np	id:12	[5.0, 5.9]	id=newid0109;
+ガ	id:13	[5.5, 5.9]	ln=4;id=newid0110;
+述語	id:14	[5.12, 5.16]	id=4;
+np	id:15	[6.1, 6.6]	id=newid0111;
+述語	id:16	[6.7, 6.10]	id=5;
+np	id:17	[6.10, 6.12]	id=newid0113;
+np	id:18	[7.0, 7.14]	id=newid0115;
+np	id:19	[7.16, 7.29]	id=newid0116;
+np	id:20	[7.31, 7.37]	id=newid0117;
+np	id:21	[7.40, 7.44]	id=newid0118;
+np	id:22	[7.45, 7.49]	id=newid0119;
+np	id:23	[7.52, 7.54]	id=newid0120;
+np	id:24	[7.56, 7.62]	id=newid0121;
+np	id:25	[7.63, 7.67]	id=newid0122;
+述語	id:26	[7.71, 7.73]	id=7;
+np	id:27	[7.74, 7.83]	id=newid0123;
+np	id:28	[7.86, 7.98]	id=newid0124;
+np	id:29	[7.101, 7.110]	id=newid0125;
+述語	id:30	[8.1, 8.2]	id=8;
+事態	id:31	[8.4, 8.6]	id=10005;
+述語	id:32	[8.4, 8.6]	id=9;
+np	id:33	[9.0, 9.15]	id=newid0126;
+事態	id:34	[9.16, 9.18]	id=10006;
+np	id:35	[9.16, 9.18]	id=newid0127;
+ガ	id:36	[9.16, 9.18]	ln=10;id=newid0128;
+np	id:37	[9.19, 9.21]	id=newid0129;
+述語	id:38	[9.19, 9.21]	id=10;
+事態	id:39	[10.0, 10.2]	id=10007;
+np	id:40	[10.0, 10.2]	id=newid0130;
+np	id:41	[10.3, 10.5]	id=newid0131;
+np	id:42	[10.6, 10.9]	id=newid0132;
+事態	id:43	[11.0, 11.2]	id=10008;
+np	id:44	[11.0, 11.2]	id=newid0133;
+ニ	id:45	[11.0, 11.2]	ln=12;id=newid0134;
+述語	id:46	[11.3, 11.5]	id=12;
+np	id:47	[11.5, 11.7]	id=newid0135;
+事態	id:48	[11.9, 11.14]	id=10009;
+np	id:49	[11.9, 11.14]	id=newid0136;
+述語	id:50	[11.17, 11.21]	id=14;
+np	id:51	[12.1, 12.6]	id=newid0137;
+述語	id:52	[12.1, 12.6]	id=15;
+事態	id:53	[14.0, 14.2]	id=10010;
+np	id:54	[14.0, 14.5]	id=newid0138;
+事態	id:55	[14.7, 14.9]	id=10011;
+np	id:56	[14.7, 14.9]	id=newid0139;
+述語	id:57	[14.7, 14.9]	id=16;
+事態	id:58	[15.1, 15.3]	id=10012;
+np	id:59	[15.0, 15.4]	id=newid0140;
+np	id:60	[16.1, 16.5]	id=newid0141;
+np	id:61	[16.7, 16.15]	id=newid0142;
+np	id:62	[16.16, 16.25]	id=newid0143;
+事態	id:63	[17.1, 17.4]	id=10014;
+np	id:64	[17.0, 17.9]	id=newid0145;
+ガ	id:65	[17.1, 17.9]	ln=18;id=newid0146;
+述語	id:66	[17.10, 17.13]	id=18;
+np	id:67	[17.16, 17.19]	id=newid0147;
+ガ	id:68	[17.16, 17.19]	ln=19;id=newid0148;
+np	id:69	[17.20, 17.22]	id=newid0149;
+述語	id:70	[17.20, 17.22]	id=19;
+np	id:71	[17.24, 17.29]	id=newid0150;
+np	id:72	[18.0, 18.7]	id=newid0152;
+事態	id:73	[18.8, 18.10]	id=10016;
+np	id:74	[18.8, 18.10]	id=newid0153;
+np	id:75	[18.13, 18.16]	id=newid0154;
+ガ	id:76	[18.13, 18.16]	ln=22;id=newid0155;
+np	id:77	[18.17, 18.19]	id=newid0156;
+述語	id:78	[18.17, 18.19]	id=22;
+np	id:79	[18.21, 18.27]	id=newid0157;
+事態	id:80	[18.28, 18.30]	id=10017;
+np	id:81	[18.28, 18.30]	id=newid0158;
+ガ	id:82	[1.0, 1.11]	id=newid0160;ln=1;
+ヲ	id:83	[3.0, 3.3]	id=newid0161;ln=1;
+ガ	id:84	[1.0, 1.11]	id=newid0162;ln=2;
+ガ	id:85	[6.1, 6.6]	id=newid0164;ln=5;
+ガ	id:86	[7.56, 7.62]	id=newid0168;ln=7;
+ガ	id:87	[1.26, 1.36]	id=newid0169;ln=8;
+ガ	id:88	[1.0, 1.11]	id=newid0170;ln=9;
+ニ	id:89	[3.21, 3.22]	id=newid0172;ln=9;
+ヲ	id:90	[3.23, 3.26]	id=newid0173;ln=9;
+助動詞	id:91	[8.6, 8.8]	id=newid0174;
+追加ガ/ニ	id:92	[8.4, 8.6]	id=newid0175;ln=newid0174;
+述語	id:93	[10.6, 10.11]	id=newid0176;
+ガ	id:94	[10.3, 10.5]	id=newid0177;ln=newid0176;
+ガ	id:95	[11.5, 11.7]	id=newid0178;ln=12;
+ヲ	id:96	[11.9, 11.14]	id=newid0179;ln=14;
+ガ	id:97	[1.0, 1.11]	id=newid0180;ln=14;
+ニ	id:98	[1.13, 1.24]	id=newid0181;ln=14;
+ガ	id:99	[1.0, 1.11]	id=newid0182;ln=15;
+ヲ	id:100	[15.1, 15.4]	id=newid0183;ln=16;
+ガ	id:101	[1.0, 1.11]	id=newid0184;ln=16;
+機能語相当	id:102	[18.11, 18.13]	id=newid0187;
+ガ	id:103	[3.19, 3.20]	id=newid0189;ln=10000;
+ヲ	id:104	[3.13, 3.16]	id=newid0190;ln=10000;
+ヲ	id:105	[3.23, 3.26]	id=newid0193;ln=10005;
+ガ	id:106	[1.0, 1.11]	id=newid0194;ln=10005;
+ニ	id:107	[3.21, 3.22]	id=newid0195;ln=10005;
+ヲ	id:108	[9.1, 9.15]	id=newid0196;ln=10006;
+ガ	id:109	[1.0, 1.11]	id=newid0197;ln=10006;
+ヲ	id:110	[9.1, 9.15]	id=newid0198;ln=10007;
+ガ	id:111	[1.0, 1.11]	id=newid0199;ln=10007;
+ヲ	id:112	[11.5, 11.7]	id=newid0200;ln=10008;
+ガ	id:113	[1.0, 1.11]	id=newid0201;ln=10008;
+ガ	id:114	[1.13, 1.24]	id=newid0202;ln=10009;
+ニ	id:115	[1.0, 1.11]	id=newid0203;ln=10009;
+ヲ	id:116	[14.2, 14.5]	id=newid0205;ln=10010;
+ヲ	id:117	[15.1, 15.4]	id=newid0211;ln=10011;
+ガ	id:118	[1.13, 1.24]	id=newid0212;ln=10012;
+ガ	id:119	[1.26, 1.36]	id=newid0215;ln=10014;
+ガ	id:120	[18.1, 18.7]	id=newid0216;ln=10016;
+ヲ	id:121	[18.21, 18.27]	id=newid0217;ln=10017;
+ガ	id:122	[1.13, 1.24]	id=newid0218;ln=10017;
+ガ	id:123	[1.0, 1.11]	id=newid0221;ln=10010;
+ガ	id:124	[1.0, 1.11]	id=newid0222;ln=10011;
+ニ	id:125	[1.38, 1.45]	id=newid0223;ln=10012;
+照応	id:126	[3.0, 3.3]	id=newid0230;
+照応	id:127	[3.13, 3.16]	id=newid0231;ln=newid0230;
+内容/結果物	id:128	[7.93, 7.96]	id=newid0232;
+内容/結果物	id:129	[7.80, 7.83]	id=newid0233;
+述語	id:130	[6.13, 6.21]	id=newid0234;
+ヲ	id:131	[6.10, 6.12]	id=newid0235;ln=newid0234;
+ガ	id:132	[1.0, 1.11]	id=newid0236;ln=newid0234;
+述語	id:133	[16.26, 16.33]	id=newid0237;
+ヲ	id:134	[16.16, 16.25]	id=newid0238;ln=newid0237;
+ガ	id:135	[1.13, 1.24]	id=newid0239;ln=newid0237;
+述語	id:136	[17.30, 17.38]	id=newid0240;
+ヲ	id:137	[17.24, 17.29]	id=newid0241;ln=newid0240;
+ガ	id:138	[1.13, 1.24]	id=newid0242;ln=newid0240;
+述語	id:139	[18.31, 18.38]	id=newid0243;
+ヲ	id:140	[18.28, 18.30]	id=newid0244;ln=newid0243;
+ガ	id:141	[1.13, 1.24]	id=newid0245;ln=newid0243;
+</tags>
+</text>

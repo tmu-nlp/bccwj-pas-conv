@@ -1,0 +1,33 @@
+<text id=OC08_02765m_0>
+<attribute>
+checked	0
+</attribute>
+<lastid>
+134
+</lastid>
+<tags>
+np	id:0	[1.0, 1.11]	id=newid0100;
+np	id:1	[1.13, 1.24]	id=newid0101;
+np	id:2	[1.26, 1.36]	id=newid0102;
+np	id:3	[1.38, 1.45]	id=newid0103;
+np	id:4	[3.4, 3.9]	id=newid0104;
+事態	id:5	[3.10, 3.13]	id=10000;
+np	id:6	[3.10, 3.13]	id=newid0105;
+np	id:7	[5.4, 5.6]	id=newid0106;
+np	id:8	[5.8, 5.11]	id=newid0107;
+np	id:9	[5.12, 5.13]	id=newid0108;
+述語	id:10	[3.0, 3.4]	id=newid0110;
+ガ	id:11	[3.4, 3.9]	id=newid0111;ln=newid0110;
+述語	id:18	[5.4, 5.6]	id=newid0118;
+ガ	id:19	[3.10, 3.13]	id=newid0119;ln=newid0118;
+ヲ	id:25	[3.4, 3.9]	id=newid0125;ln=10000;
+ガ	id:26	[1.26, 1.36]	id=newid0126;ln=10000;
+述語	id:27	[3.13, 3.19]	id=newid0127;
+ガ	id:28	[1.13, 1.24]	id=newid0128;ln=newid0127;
+ニ	id:29	[1.0, 1.11]	id=newid0129;ln=newid0127;
+ヲ	id:30	[3.10, 3.13]	id=newid0130;ln=newid0127;
+述語	id:31	[5.14, 5.20]	id=newid0131;
+ヲ	id:32	[5.12, 5.13]	id=newid0132;ln=newid0131;
+ガ	id:33	[1.13, 1.24]	id=newid0133;ln=newid0131;
+</tags>
+</text>

@@ -1,0 +1,58 @@
+(c) Hiroyoshi Komatsu (hiroyoshi.komat at gmail.com) 2012-2013
+
+restore_tgr.py:
+        "テキストのない配布形式の tgr ファイルと BCCWJ のデータから、
+        tagrin でも開ける形式に変換する。"
+
+        使い方（Windows）:
+                http://www.python.jp/Zope/download/pythoncore から Python 2.x.x をインストールする。
+                ［スタート］からマイコンピュータのアイコンを右クリックして、プロパティダイアログを開いて、
+                詳細タブの下の方にある環境変数ボタンをクリックし、システム変数のPATHを編集して
+                セミコロンで区切って「C:\Python27」を追加する。
+                コンソールから
+                        $ cd C:\corpus\bccwj-pas  # 配布フォルダの場所
+                        $ python bin\restore_tgr.py -b <BCCWJのフォルダ> -o <出力するフォルダ>
+                で実行する。
+
+        例（Windows）:
+                配布されたフォルダが C:\corpus\bccwj.orig.zip にあり、
+                BCCWJ のフォルダが C:\corpus\BCCWJ11VOL1 にある場合、
+
+                1. エクスプローラーで C:\corpus\BCCWJ11VOL1\CORE\M-XML を開いて
+                そこにある core_M-XML.zip を右クリック、［解凍］－［ここに解凍］を選択して展開する。
+
+                2. エクスプローラーで C:\corpus\ を開いて
+                bccwj.orig.zip を右クリック、［解凍］－［ここに解凍］で展開する。
+
+                3.［スタート］の［プログラム］（Windows XPでは［すべてのプログラム］）
+                －［アクセサリ］－［コマンドプロンプト］を起動して
+                $ cd C:\corpus\bccwj.orig
+                $ python restore_tgr.py -b C:\corpus\BCCWJ11VOL1 -o output
+                と入力すると、"output" フォルダに tagrin で編集可能なファイルが出力される。
+
+        使い方（Mac, Linux）
+                コンソールから
+                  $ cd ~/Downloads/bccwj-pas  # 配布フォルダの場所
+                  $ python bin/restore_tgr.py -b <BCCWJ内のXMLがあるフォルダ> -o <出力するフォルダ>
+
+convert.py:
+        "tagrin 形式の復元された tgr を、NAIST コーパス形式に変換する。"
+
+        使い方（Windows）:
+                Python のインストールは上記を参照。
+                コンソールから
+                        $ cd C:\corpus\bccwj-pas  # 配布フォルダの場所
+                        $ python bin\convert.py -b <BCCWJ内のXMLがあるフォルダ> -t <復元済みtgrのフォルダ> -o <出力するフォルダ>
+                で実行する。
+
+        使い方（Mac, Linux）:
+                コンソールから
+                        $ cd ~/Downloads/bccwj-pas  # 配布フォルダの場所
+                        $ python bin/convert.py -b <BCCWJ内のXMLがあるフォルダ> -t <復元済みtgrのフォルダ> -o <出力するフォルダ>
+
+簡単な使い方（Mac, Linux）:
+        # tgr を restored/ に復元
+        $ python bin/restore_tgr.py -b [BCCWJ内のXMLがあるディレクトリ] -o restored
+
+        # tgr を NAIST コーパス形式に変換し、 converted/ に置く
+        $ python bin/convert.py -t restored -b [BCCWJ内のXMLがあるディレクトリ] -o converted
