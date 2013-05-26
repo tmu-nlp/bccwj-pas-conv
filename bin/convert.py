@@ -372,7 +372,14 @@ class LineChunks:
         except AttributeError:
             return fail
 
-class JoinedTag:
+class tags:
+    def get_tags(self):
+        return self.tags
+
+    def set_tags(self, tag):
+        self.tags = dict(tag.items() + self.tags.items())
+
+class JoinedTag(tags):
     def __init__(self, word, morph_info):
         self.word = word
         self.morph_info = morph_info
@@ -380,12 +387,6 @@ class JoinedTag:
 
     def get_word(self):
         return self.word
-
-    def get_tags(self):
-        return dict(self.tags)
-
-    def set_tags(self, tag):
-        self.tags.update(tag)
 
     def get_output(self):
         if not self.word: return
@@ -399,7 +400,7 @@ class JoinedTag:
             output += "_"
         return output
 
-class AlreadyTags:
+class AlreadyTags(tags):
     """
     Already got tags before the verb word.
     It will merge JoinedTag when found verb word
@@ -407,17 +408,13 @@ class AlreadyTags:
     def __init__(self, tags={}):
         self.tags = tags
 
-    def get_tags(self):
-        return self.tags
-
     def get_output(self):
+        # This method is to debug
         tags = []
         for key, value in self.tags.iteritems():
             tags.append('%s="%s"' % (key, value))
         return '/'.join(tags)
 
-    def set_tags(self, tag):
-        self.tags.update(tag)
 
 class classify:
     def __init__(self, all_tags, morphs, tgr_id="UNKNOWN",
@@ -659,7 +656,7 @@ class classify:
                         print >>stderr, "Cannot found pred for causative/passive"
                 self.pword_causative_flag = False
         else:
-            # If previous word was pred, it is active
+            # If previous word was pred, this is active
             self.pword_causative_flag = False
             prev_pred = find_pred_key(self.result, search_range=(1,2))
             if prev_pred:
@@ -756,6 +753,7 @@ class classify:
             if tag in (u"述語", u"事態"):
                 pos_type = "pred" if tag == u"述語" else "noun"
                 already = self.already_ref.get(links['id'])
+
                 if already:
                     self.result[key] = \
                                 JoinedTag(word, "%s %s %s" % (lform, lemma, output_pos))
@@ -777,6 +775,7 @@ class classify:
                     exo = self.exomap(end_index)
                     link = exo or str(self.id)
                     ln_match = search_value(self.result, links['ln'])
+
                     if ln_match:
                         ln_match.set_tags({
                             gaoni: link,
@@ -801,6 +800,7 @@ class classify:
                                 JoinedTag(word, "%s %s %s" % (lform, lemma, output_pos))
                     self.result[key].set_tags({"id": str(self.id)})
                     ln_match = search_value(self.result, links['ln'])
+
                     if ln_match:
                         ln_match.set_tags({
                             gaoni: str(self.id),
@@ -997,13 +997,15 @@ if __name__ == '__main__':
                       action='store_true', default=False)
     (opts, args) = parser.parse_args()
 
+    PARSING = "OC"
+
     if not opts.debug_flag:
         for dir in [n for n in os.listdir(opts.tgr_dir)
                     if os.path.isdir(os.path.join(opts.tgr_dir, n))]:
             try:
-                os.makedirs(opts.out_dir+'/'+dir)
+                os.makedirs("%s/%s/%s" % (opts.out_dir, dir, PARSING))
             except: pass
-            for root, current_d, files in os.walk('%s/%s/OC/' % (opts.tgr_dir, dir)):
+            for root, current_d, files in os.walk("%s/%s/%s/" % (opts.tgr_dir, dir, PARSING)):
                 for f in glob(os.path.join(root, '*.tgr')):
                     buff = ""
                     name = os.path.basename(f)
@@ -1014,7 +1016,7 @@ if __name__ == '__main__':
                         converted = output(tgr, tgr_id)
                         buff += '\n'.join(converted) + '\n'
                     try:
-                        with open('%s/%s/%s' % (opts.out_dir, dir, name), 'w') as fp:
+                        with open('%s/%s/%s/%s' % (opts.out_dir, dir, PARSING, name), 'w') as fp:
                             fp.write(buff.encode('utf-8'))
                     except IOError, e:
                         print >>stderr, "Cannot open %s:%s" % (name, e)
@@ -1026,7 +1028,7 @@ if __name__ == '__main__':
         # Experiment on one file.
         # (print output to stdout and doesn't write any file)
         buff = ""
-        tgrs = inputs("./input/bccwj_utf8v2(12.08.24).fixedOC.orig/B/OC/041.tgr",
+        tgrs = inputs("./input/bccwj-fixed-13.03.18-2/A/OC/000.tgr",
                       opts.bccwj_dir)
         for tgr in tgrs:
             tgr_id = re.sub("m_0", "", tgr.id)
