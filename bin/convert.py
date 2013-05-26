@@ -16,9 +16,9 @@ from copy import copy
 from env_cabocha import envCaboCha
 # import CaboCha
 
-# for debug
-import re,pprint
 def pp(obj):
+    # The method is to debug
+    import re,pprint
     pp = pprint.PrettyPrinter(indent=4, width=160)
     str = pp.pformat(obj)
     return re.sub(r"\\u([0-9a-f]{4})", lambda x: unichr(int("0x"+x.group(1),
@@ -619,7 +619,8 @@ class classify:
         def find_pred_key(current_result, search_range=(1,3)):
             if len(current_result) < search_range[1]:
                 search_range = (1, len(current_result))
-            for i in range(search_range[0], search_range[1]+1):  # +1 for range function
+            # Increasing is for the range function
+            for i in range(search_range[0], search_range[1]+1):
                 prev_pred_key = self.result.keys()[-i]
                 prev_pred = self.result[prev_pred_key]
                 if not type(prev_pred) == type(str()) and \

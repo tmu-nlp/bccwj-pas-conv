@@ -7,6 +7,12 @@ import re
 import commands
 
 class envCaboCha:
+    def on_windows(self):
+        if os.name == 'nt':
+            return True
+        else:
+            return False
+
     def __init__(self):
         def cabocha_calcs():
             c = commands.getoutput("which cabocha")
@@ -15,24 +21,20 @@ class envCaboCha:
                 exit(-1)
             return c
 
-        self.win_cabocha = ["C:\Program Files\CaboCha\bin/cabocha.exe",
-                            "C:\Program Files (x86)\CaboCha\bin/cabocha.exe"]
-        self.oth_cabocha = [cabocha_calcs()]
-
-    def on_windows(self):
-        if os.name == 'nt':
-            return True
+        if self.on_windows():
+            self.cabocha_path = ["C:\Program Files\CaboCha\bin/cabocha.exe",
+                                "C:\Program Files (x86)\CaboCha\bin/cabocha.exe"]
         else:
-            return False
+            self.cabocha_path = [cabocha_calcs()]
 
     def search_cabocha(self):
-        cc = self.win_cabocha if self.on_windows() else self.oth_cabocha
-        for c in cc:
+        for c in self.cabocha_path:
             if os.path.exists(c):
                 cabocha = c
                 break
         else:
-            print >>sys.stderr, "ERROR: Not exist cabocha at %s" % (', '.join(cc))
+            print >>sys.stderr, "ERROR: Not exist cabocha at %s"\
+                % (', '.join(self.cabocha_path))
             exit(-1)
         return cabocha
 

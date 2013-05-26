@@ -68,7 +68,6 @@ def extract_text(luw):
                             if in_suw.tagName == 'correction':
                                 # Now go in <LUW ...><SUW ...>\
                                 # <correction originalText="..." type="..."> here </...>
-                                # TODO: Check typo expression in BCCWJ
                                 db_value += in_suw.getAttribute('originalText')
                         except AttributeError:
                             db_value += in_suw.data
@@ -134,7 +133,7 @@ def parse_bccwj(xml):
     id = xmldoc.getElementsByTagName('mergedSample')[0].attributes["sampleID"].value
 
     db_value = ""
-    # TODO: Insert a newline before the answer for OC
+    # TODO: Insert a newline before an answer in OC
     # for article in xmldoc.getElementsByTagName('article'):
         # if article.getAttribute('articleID').endswith('-Answer'):
         #     db_value += '\n'
@@ -157,23 +156,19 @@ if __name__ == '__main__':
     (opts, args) = parser.parse_args()
 
     PARSING = "PB"
+    header = u"【　外界(一人称)　】　　【　外界(二人称)　】　　【　外界(一般)　】　　【　節照応　】\n——————————————————————————————\n"
 
     if not opts.bccwj_dir or not opts.out_dir:
         print """Usage: python bin/restore_tgr.py\
              -b BCCWJ dir -o output dir -t distribution dir(option)"""
         exit(-1)
 
-    try:
-        os.makedirs(opts.out_dir)
-    except: pass
-
-    header = u"【　外界(一人称)　】　　【　外界(二人称)　】　　【　外界(一般)　】　　【　節照応　】\n——————————————————————————————\n"
-
     for dir in [n for n in os.listdir(opts.tgr_dir)
                 if os.path.isdir(os.path.join(opts.tgr_dir, n))]:
         # The dir is each of bccwj-fixed/*
+        output_path = ('%s/%s/%s/' % (opts.out_dir, dir, PARSING))
         try:
-            os.makedirs(opts.out_dir+'/'+dir)
+            os.makedirs(output_path)
         except: pass
 
         for root, d, files in os.walk(opts.tgr_dir+'/'+dir):
@@ -185,6 +180,7 @@ if __name__ == '__main__':
                 buf = []
                 for line in lines:
                     line = line.decode('utf-8')
+                    # extracted ID, example: OC10_00000m_0
                     raw_id = search_id.match(line.strip())
                     if raw_id:
                         # New sentences
@@ -192,11 +188,17 @@ if __name__ == '__main__':
                         id = raw_id.groups(0)[0][:-3]  # remove 'm_0'
 
                         # open BCCWJ file
-                        sentences = parse_bccwj("%s/%s.xml" % (opts.bccwj_dir, id))
+                        # Confirm xml file and pass it if not exists
+                        xml = "%s/%s.xml" % (opts.bccwj_dir, id)
+                        if not os.path.exists(xml):
+                            print >>sys.stderr, "Not exist xml, passing it: %s in %s" % (xml, f)
+                            continue
+
+                        sentences = parse_bccwj(xml)
                         contents = []
                         if opts.debug:
                             print "%s/%s.txt" % (opts.out_dir, id)
-                            with open('%s/%s.txt' % (opts.out_dir, id), 'w') as fp:
+                            with open('%s/%s.txt' % (opts.out_dir, id), 'wb') as fp:
                                 fp.write(sentences)
                         contents.append(line)
                         contents.append('<contents>\n')
@@ -205,13 +207,14 @@ if __name__ == '__main__':
                         contents.append('</contents>\n')
                         buf.append(contents)
                     else:
-                        # Add one line to recognized sentences
+                        # Add the line to now processing article
                         buf[-1].append(line)
                 # tgr_file = opts.out_dir+'/'+id+'.tgr'
                 try:
                     if not opts.debug:
-                        with open('%s/%s/%s' % (opts.out_dir, dir, name), 'w') as fp:
+                        with open(output_path+name, 'w') as fp:
                             for i in buf:
+                                # Write each article
                                 fp.write(''.join(i).encode('utf-8'))
                 except IOError, e:
                     print >>sys.stderr, "Cannot open %s:%s" % (name, e)
