@@ -24,7 +24,7 @@ def extract_text(luw):
                 if s.parentNode.tagName == 'NumTrans':
                     text = s.getAttribute('originalText')
                     if text == u'／':
-                        # reverse numerator and denominator
+                        # reverse a numerator and a denominator
                         nnode = suw.getElementsByTagName('SUW')[e+1]
                         nnode_text = nnode.getAttribute('originalText') or \
                                      nnode.childNodes[0].data
@@ -113,16 +113,25 @@ def store_db(dom):
         # article = luw.parentNode.parentNode.parentNode
         db_value += extract_text(luw)
 
+        if db_value.endswith(u"。"):
+            pass
+
         # If it is the last element, add newlines.
+
+        # if luw.parentNode.parentNode.tagName == "superSentence" and \
+        #    luw.parentNode.parentNode.lastChild.lastChild == luw:
+        #     continue
+
         if luw.parentNode.lastChild == luw and \
-           luw.parentNode.tagName != "quote" and \
-            (luw.parentNode.nextSibling.nextSibling == None or
-             luw.parentNode.nextSibling.nextSibling.tagName != "LUW") and \
-            (dom.getAttribute('type') != 'fragment' or \
-             dom.nextSibling.nextSibling == None):
+           luw.parentNode.tagName != "quote"  and \
+            (luw.parentNode.nextSibling.nextSibling == None \
+             or luw.parentNode.nextSibling.nextSibling.tagName != "LUW") and \
+            (dom.getAttribute('type') != 'fragment' \
+             or dom.nextSibling.nextSibling == None):
             # TODO: I don't know why, but in some case,
-            # do not break after a fragment.
+            # do not break after the fragment.
             db_value += "\n"
+        # if luw.parentNode.lastChild == luw
 
         if nsib == None: continue
     return db_value
@@ -198,7 +207,7 @@ if __name__ == '__main__':
                         contents = []
                         if opts.debug:
                             print "%s/%s.txt" % (opts.out_dir, id)
-                            with open('%s/%s.txt' % (opts.out_dir, id), 'wb') as fp:
+                            with open('%s/%s.txt' % (opts.out_dir, id), 'w') as fp:
                                 fp.write(sentences)
                         contents.append(line)
                         contents.append('<contents>\n')

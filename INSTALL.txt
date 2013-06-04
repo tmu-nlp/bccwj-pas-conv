@@ -11,7 +11,7 @@ restore_tgr.py:
                 セミコロンで区切って「C:\Python27」を追加する。
                 コンソールから
                         $ cd C:\corpus\bccwj-pas  # 配布フォルダの場所
-                        $ python bin\restore_tgr.py -b <BCCWJのフォルダ> -o <出力するフォルダ>
+                        $ python bin\restore_tgr.py -t input\dist -b <BCCWJのフォルダ> -o <出力するフォルダ>
                 で実行する。
 
         例（Windows）:
@@ -27,13 +27,13 @@ restore_tgr.py:
                 3.［スタート］の［プログラム］（Windows XPでは［すべてのプログラム］）
                 －［アクセサリ］－［コマンドプロンプト］を起動して
                 $ cd C:\corpus\bccwj.orig
-                $ python restore_tgr.py -b C:\corpus\BCCWJ11VOL1 -o output
+                $ python restore_tgr.py -t input\dist -b C:\corpus\BCCWJ11VOL1 -o output
                 と入力すると、"output" フォルダに tagrin で編集可能なファイルが出力される。
 
         使い方（Mac, Linux）
                 コンソールから
                   $ cd ~/Downloads/bccwj-pas  # 配布フォルダの場所
-                  $ python bin/restore_tgr.py -b <BCCWJ内のXMLがあるフォルダ> -o <出力するフォルダ>
+                  $ python bin/restore_tgr.py -t input/dist -b <BCCWJ内のXMLがあるフォルダ> -o <出力するフォルダ>
 
 convert.py:
         "tagrin 形式の復元された tgr を、NAIST コーパス形式に変換する。
@@ -58,7 +58,7 @@ convert.py:
         $ python make_cabocha.py
 
         # tgr を restored/ に復元
-        $ python bin/restore_tgr.py -b [BCCWJ内のXMLがあるディレクトリ] -o restored
+        $ python bin/restore_tgr.py -b [BCCWJ内のXMLがあるディレクトリ] -t input/dist -o restored
 
         # tgr を NAIST コーパス形式に変換し、 converted/ に置く
         $ python bin/convert.py -t restored -b [BCCWJ内のXMLがあるディレクトリ] -o converted
