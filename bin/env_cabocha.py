@@ -8,12 +8,9 @@ import commands
 
 class envCaboCha:
     def on_windows(self):
-        if os.name == 'nt':
-            return True
-        else:
-            return False
+        return os.name == 'nt'
 
-    def __init__(self):
+    def __init__(self, cabocha_config_file):
         def cabocha_calcs():
             c = commands.getoutput("which cabocha")
             if not c:
@@ -26,6 +23,8 @@ class envCaboCha:
                                 "C:\Program Files (x86)\CaboCha\bin/cabocha.exe"]
         else:
             self.cabocha_path = [cabocha_calcs()]
+
+        self.cabocha_config = cabocha_config_file
 
     def search_cabocha(self):
         for c in self.cabocha_path:
@@ -49,3 +48,6 @@ class envCaboCha:
             print >>sys.stderr, "ERROR: Not exist cabocha model directory at %s" % models
             exit(-1)
         return models
+
+    def get_cabocha_config(self):
+        return self.cabocha_config

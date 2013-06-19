@@ -419,11 +419,12 @@ class AlreadyTags(tags):
 class classify:
     def __init__(self, all_tags, morphs, tgr_id="UNKNOWN",
                  use_cabocha=True,
+                 cabocha_env = None,  # envCabocha() class
                  cabocha_option=["-I1", "-O4", "-f1", "-n1",
                                  "--posset=UNIDIC",
                                  "--charset=UTF8",
-                                 "--mecabrc=./bin/mecabrc",
-                                 "--rcfile=./bin/unidic_cabocharc"]):
+                                 "--mecabrc=./bin/mecabrc"]):
+        # TODO: pass cabocha_option processing to envCabocha class
         self.all_tags = all_tags
         self.morphs = morphs
         self.result = OrderedDict()
@@ -436,7 +437,10 @@ class classify:
         self.cabocha_option = cabocha_option
         self.tgr_id = tgr_id
         if use_cabocha:
-            cabocha_env = envCaboCha()
+            if not cabocha_env:
+                print >>stderr, "Please setup cabocha_env argument to the class"
+                exit(-1)
+            cabocha_option.append("--rcfile="+cabocha_env.get_cabocha_config())
             self.cabocha_path = cabocha_env.search_cabocha()
             self.chunks = self.setup_cabocha(morphs)
             self.last_chunk_offset = [1, 0]
@@ -499,7 +503,7 @@ class classify:
         return (lform, lemma, pos)
 
     def setup_cabocha(self, morphs):
-        # pass to cabocha
+        # pass morphs to cabocha
         to_cabocha = ""
         end_line_number = morphs.keys()[-1]
         for end_line, line_morphs in morphs.iteritems():
@@ -896,7 +900,7 @@ class classify:
         res.append("EOS")  # file tail
         return res
 
-def output(tgr, tgr_id):
+def output(tgr, tgr_id, cabocha_env):
     """
     Return a list of the same format as the NAIST Text Corpus.
     """
@@ -920,7 +924,7 @@ def output(tgr, tgr_id):
 
 
     referred_tag_number = -1
-    classification = classify(tags, morphs, tgr_id, use_cabocha=True)
+    classification = classify(tags, morphs, tgr_id, use_cabocha=True, cabocha_env=cabocha_env)
     for end_line, line_morphs in morphs.iteritems():
         if end_line == -1: continue  # exo will be processed after this
         for end_index, morph in line_morphs.iteritems():
@@ -984,6 +988,27 @@ def output(tgr, tgr_id):
 
     return classification.final_result()
 
+def setup_cabocha_config():
+    import tempfile
+    try:
+        f = tempfile.NamedTemporaryFile(delete=False)
+        env = envCaboCha(f.name)
+        model_dir = env.cabocha_model_dir()
+
+        f.write('charset = utf8\n')
+        f.write('posset = UNIDIC\n')
+        f.write('output-format = 0\n')
+        f.write('input-layer = 0\n')
+        f.write('output-layer = 4\n')
+        f.write('ne = 1\n')
+        f.write('parser-model = %s/dep.unidic.model\n' % model_dir)
+        f.write('chunker-model = %s/chunk.unidic.model\n' % model_dir)
+        f.write('ne-model = %s/ne.unidic.model\n' % model_dir)
+    finally:
+        f.close()
+    print >>stderr, "Wrote CaboCha config file to the temp directory"
+    return env
+
 
 if __name__ == '__main__':
     d = datetime.today()
@@ -1000,6 +1025,7 @@ if __name__ == '__main__':
 
     PARSING = "OC"
 
+    cabocha_env = setup_cabocha_config()
     if not opts.debug_flag:
         for dir in [n for n in os.listdir(opts.tgr_dir)
                     if os.path.isdir(os.path.join(opts.tgr_dir, n))]:
@@ -1014,7 +1040,7 @@ if __name__ == '__main__':
                     tgrs = inputs(f, opts.bccwj_dir)
                     for tgr in tgrs:
                         tgr_id = re.sub("m_0", "", tgr.id)
-                        converted = output(tgr, tgr_id)
+                        converted = output(tgr, tgr_id, cabocha_env)
                         buff += '\n'.join(converted) + '\n'
                     try:
                         with open('%s/%s/%s/%s' % (opts.out_dir, dir, PARSING, name), 'w') as fp:

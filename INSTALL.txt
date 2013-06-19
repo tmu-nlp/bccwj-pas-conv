@@ -43,20 +43,15 @@ convert.py:
                 Python のインストールは上記を参照。
                 コンソールから
                         $ cd C:\corpus\bccwj-pas  # 配布フォルダの場所
-                        $ python make_cabocha.py  # CaboCha の設定ファイルの生成
                         $ python bin\convert.py -b <BCCWJ内のXMLがあるフォルダ> -t <復元済みtgrのフォルダ> -o <出力するフォルダ>
                 で実行する。
 
         使い方（Mac, Linux）:
                 コンソールから
                         $ cd ~/Downloads/bccwj-pas  # 配布フォルダの場所
-                        $ python make_cabocha.py  # CaboCha の設定ファイルの生成
                         $ python bin/convert.py -b <BCCWJ内のXMLがあるフォルダ> -t <復元済みtgrのフォルダ> -o <出力するフォルダ>
 
 簡単な使い方（Mac, Linux）:
-        # CaboCha の設定ファイルを環境に合わせて生成（bin/下に出力されます）
-        $ python make_cabocha.py
-
         # tgr を restored/ に復元
         $ python bin/restore_tgr.py -b [BCCWJ内のXMLがあるディレクトリ] -t input/dist -o restored
 
