@@ -11,6 +11,20 @@ from optparse import OptionParser
 search_id = re.compile('^<text id=(\w+)>$')
 search_name = re.compile('.*/(.+)')
 
+def check_sampling(sentence):
+    # This function returns a string that "start" or "end" or empty
+    sampling = sentence.getElementsByTagName("sampling")
+    if sampling:
+        start_or_end = sampling[0].getAttribute("type")
+        if start_or_end == "start":
+            print >>sys.stderr, "Found sampling start tag"
+            return "start"
+        elif start_or_end == "end":
+            print >>sys.stderr, "Found sampling end_tag"
+            return "end"
+    else:
+        return ""
+
 def extract_text(luw):
     db_value = ""
     nsib = luw.nextSibling
@@ -113,9 +127,6 @@ def store_db(dom):
         # article = luw.parentNode.parentNode.parentNode
         db_value += extract_text(luw)
 
-        if db_value.endswith(u"。"):
-            pass
-
         # If it is the last element, add newlines.
 
         # if luw.parentNode.parentNode.tagName == "superSentence" and \
@@ -137,7 +148,7 @@ def store_db(dom):
     return db_value
 
 
-def parse_bccwj(xml):
+def parse_bccwj(xml, tgr_id):
     xmldoc = minidom.parse(xml)
     id = xmldoc.getElementsByTagName('mergedSample')[0].attributes["sampleID"].value
 
@@ -146,19 +157,36 @@ def parse_bccwj(xml):
     # for article in xmldoc.getElementsByTagName('article'):
         # if article.getAttribute('articleID').endswith('-Answer'):
         #     db_value += '\n'
-    for sent in xmldoc.getElementsByTagName('sentence'):
-        # if sent.parentNode.tagName == "quote" or \
-           # sent.parentNode.parentNode.tagName == "list":
-        if sent.parentNode.tagName == "quotation":
-           # sent.getAttribute('type') == "verse":
-            continue
-        db_value += store_db(sent)
+
+    sampling_flag = False
+    if tgr_id.endswith("m_0"):
+        article_or_div = xmldoc.getElementsByTagName("article")
+    else:
+        article_or_div = xmldoc.getElementsByTagName("div")
+    for each_ad in article_or_div:
+        for sent in each_ad.getElementsByTagName('sentence'):
+            if tgr_id.endswith("m_0"):
+                _sampling_flag = check_sampling(sent)
+                if _sampling_flag == "start":
+                    sampling_flag = True
+                elif _sampling_flag == "end":
+                    sampling_flag = False
+
+                if sampling_flag:
+                    print "sampling_flag is true, so skip the sentence"
+                    continue
+            # if sent.parentNode.tagName == "quote" or \
+               # sent.parentNode.parentNode.tagName == "list":
+            if sent.parentNode.tagName == "quotation":
+               # sent.getAttribute('type') == "verse":
+                continue
+            db_value += store_db(sent)
     return db_value
 
 
 if __name__ == '__main__':
     parser = OptionParser()
-    parser.add_option('-t', '--tgr_dir', dest='tgr_dir', default='input/bccwj-fixed(13.03.18)/')
+    parser.add_option('-t', '--tgr_dir', dest='tgr_dir', default='input/restored/')
     parser.add_option('-b', '--bccwj_dir', dest='bccwj_dir')
     parser.add_option('-o', '--output_dir', dest='out_dir')
     parser.add_option('-d', '--debug', dest='debug', action='store_true', default=False)
@@ -194,7 +222,8 @@ if __name__ == '__main__':
                     if raw_id:
                         # New sentences
 
-                        id = raw_id.groups(0)[0][:-3]  # remove 'm_0'
+                        tgr_raw_id = raw_id.groups(0)[0]
+                        id = tgr_raw_id[:-3]  # remove 'm_0'
 
                         # open BCCWJ file
                         # Confirm xml file and pass it if not exists
@@ -203,7 +232,7 @@ if __name__ == '__main__':
                             print >>sys.stderr, "Not exist xml, passing it: %s in %s" % (xml, f)
                             continue
 
-                        sentences = parse_bccwj(xml)
+                        sentences = parse_bccwj(xml, tgr_raw_id)
                         contents = []
                         if opts.debug:
                             print "%s/%s.txt" % (opts.out_dir, id)

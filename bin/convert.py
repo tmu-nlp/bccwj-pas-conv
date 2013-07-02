@@ -402,7 +402,7 @@ class JoinedTag(tags):
 
 class AlreadyTags(tags):
     """
-    Already got tags before the verb word.
+    Already got tags before a verb word.
     It will merge JoinedTag when found verb word
     """
     def __init__(self, tags={}):
@@ -1013,10 +1013,9 @@ def setup_cabocha_config():
 if __name__ == '__main__':
     d = datetime.today()
     parser = OptionParser()
+    parser.add_option('-b', '--bccwj_dir', dest='bccwj_dir')
     parser.add_option('-t', '--tgr_dir', dest='tgr_dir',
-                      default='./input/bccwj-fixed(13.03.18)/')
-    parser.add_option('-b', '--bccwj_dir', dest='bccwj_dir',
-                      default='./input/BCCWJ11VOL1/CORE/M-XML/')
+                      default='./RESTORED/')
     parser.add_option('-o', '--output_dir', dest='out_dir',
                       default='./CONVERTED/')
     parser.add_option('-d', '--debug', dest='debug_flag',

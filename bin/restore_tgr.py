@@ -113,7 +113,6 @@ if __name__ == '__main__':
             os.makedirs("%s/%s/%s" % (opts.out_dir, dir, PARSING))
         except: pass
 
-
         # The dir is each of bccwj-fixed/*
         for root, d, files in os.walk(opts.tgr_dir+'/'+dir):
             # root is input/bccwj-fixed/[abcde]/

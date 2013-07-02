@@ -14,7 +14,7 @@ class envCaboCha:
         def cabocha_calcs():
             c = commands.getoutput("which cabocha")
             if not c:
-                print >>sys.stderr, "'which cabocha' returned no string"
+                print >>sys.stderr, "ERROR: 'which cabocha' returned no string"
                 exit(-1)
             return c
 
