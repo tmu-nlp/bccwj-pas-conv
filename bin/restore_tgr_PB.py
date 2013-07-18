@@ -85,6 +85,8 @@ def extract_text(luw):
                                 # Now go in <LUW ...><SUW ...>\
                                 # <correction originalText="..." type="..."> here </...>
                                 db_value += in_suw.getAttribute('originalText')
+                            elif in_suw.tagName == 'ruby':
+                                db_value += in_suw.childNodes[0].data
                         except AttributeError:
                             db_value += in_suw.data
 
