@@ -2,13 +2,13 @@
 
 # Convert tgr to distribute format with to_dist.py
 
-for abcd in input/bccwj-fixed-13.03.18-2/*
+for abcd in ../bccwj-fixed-13.03.18-3/*
 do
     for field in $abcd/*
     do
         for file_name in $field/*.tgr
         do
-            new_dir="dist/"${field##input/bccwj-fixed-13.03.18-2/}
+            new_dir="dist/"${field##../bccwj-fixed-13.03.18-3/}
             mkdir -p $new_dir
             python to_dist.py $file_name > $new_dir/${file_name##*/}
             echo "wrote:"$new_dir/${file_name##*/}

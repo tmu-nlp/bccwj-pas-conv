@@ -60,6 +60,8 @@ def extract_text(luw):
                         if text.tagName == 'sampling': pass
                         elif text.tagName == 'ruby':
                             db_value += text.childNodes[0].data
+                        # elif text.tagName == 'correction':
+                        #     db_value += text.childNodes[0].data
                     except AttributeError:
                         db_value += text.data
             else:
@@ -159,22 +161,32 @@ def parse_bccwj(xml, tgr_id):
         #     db_value += '\n'
 
     sampling_flag = False
+    sampling_end_flag = False
     if tgr_id.endswith("m_0"):
-        article_or_div = xmldoc.getElementsByTagName("article")
+        # if "PB59_00001" in tgr_id:
+        #     pass
+        article = xmldoc.getElementsByTagName("article")
+        if article[0].getAttribute("isWholeArticle") == "false":
+            contents = [xmldoc]
+        else:
+            contents = article
     else:
-        article_or_div = xmldoc.getElementsByTagName("div")
-    for each_ad in article_or_div:
+        contents = xmldoc.getElementsByTagName("div")
+    for each_ad in contents:
         for sent in each_ad.getElementsByTagName('sentence'):
-            if tgr_id.endswith("m_0"):
+            if tgr_id.endswith("m_0") and sent.parentNode.tagName != "div":
                 _sampling_flag = check_sampling(sent)
                 if _sampling_flag == "start":
                     sampling_flag = True
                 elif _sampling_flag == "end":
                     sampling_flag = False
+                    sampling_end_flag = True
 
-                if sampling_flag:
+                if sampling_flag or sampling_end_flag:
                     print "sampling_flag is true, so skip the sentence"
+                    sampling_end_flag = False
                     continue
+
             # if sent.parentNode.tagName == "quote" or \
                # sent.parentNode.parentNode.tagName == "list":
             if sent.parentNode.tagName == "quotation":
@@ -226,10 +238,10 @@ if __name__ == '__main__':
                         id = tgr_raw_id[:-3]  # remove 'm_0'
 
                         # open BCCWJ file
-                        # Confirm xml file and pass it if not exists
+                        # Confirm xml file and pass it if does not exists
                         xml = "%s/%s.xml" % (opts.bccwj_dir, id)
                         if not os.path.exists(xml):
-                            print >>sys.stderr, "Not exist xml, passing it: %s in %s" % (xml, f)
+                            print >>sys.stderr, "The xml doesn't exists, passing it: %s in %s" % (xml, f)
                             continue
 
                         sentences = parse_bccwj(xml, tgr_raw_id)
