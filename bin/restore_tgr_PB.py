@@ -26,6 +26,8 @@ def check_sampling(sentence):
         return ""
 
 def extract_text(luw):
+    "Extracting text from the xml node 'LUW'"
+
     db_value = ""
     nsib = luw.nextSibling
     article = luw.parentNode.parentNode.parentNode
@@ -60,10 +62,16 @@ def extract_text(luw):
                         if text.tagName == 'sampling': pass
                         elif text.tagName == 'ruby':
                             db_value += text.childNodes[0].data
-                        # elif text.tagName == 'correction':
-                        #     db_value += text.childNodes[0].data
+                        elif text.tagName == 'correction':
+                            # db_value += text.childNodes[0].data
+                            # try:
+                            db_value += text.childNodes[0].data
+                            # except AttributeError:
+                            #     pass
                     except AttributeError:
                         db_value += text.data
+                    except IndexError:
+                        pass
             else:
                 try:
                     if suw.childNodes[0].tagName == 'enclosedCharacter':
@@ -102,7 +110,9 @@ def extract_text(luw):
     return db_value
 
 
-def store_db(dom):
+def restore_tgr(dom):
+    "Extracting no difference text between BCCWJ's xml and tgr"
+
     db_value = ""
 
     for luw in dom.childNodes:
@@ -153,6 +163,8 @@ def store_db(dom):
 
 
 def parse_bccwj(xml, tgr_id):
+    # Parsing BCCWJ corpus's file
+
     xmldoc = minidom.parse(xml)
     id = xmldoc.getElementsByTagName('mergedSample')[0].attributes["sampleID"].value
 
@@ -163,20 +175,19 @@ def parse_bccwj(xml, tgr_id):
         #     db_value += '\n'
 
     sampling_flag = False
+    # sampling_start_flag = False
     sampling_end_flag = False
     if tgr_id.endswith("m_0"):
-        # if "PB59_00001" in tgr_id:
-        #     pass
         article = xmldoc.getElementsByTagName("article")
-        if article[0].getAttribute("isWholeArticle") == "false":
-            contents = [xmldoc]
-        else:
-            contents = article
+        # if article[0].getAttribute("isWholeArticle") == "false":
+        #     contents = [xmldoc]
+        # else:
+        contents = article
     else:
         contents = xmldoc.getElementsByTagName("div")
     for each_ad in contents:
         for sent in each_ad.getElementsByTagName('sentence'):
-            if tgr_id.endswith("m_0") and sent.parentNode.tagName != "div":
+            if tgr_id.endswith("m_0") and sent.parentNode.tagName != "div":  # div の条件分岐はいらない?
                 _sampling_flag = check_sampling(sent)
                 if _sampling_flag == "start":
                     sampling_flag = True
@@ -194,7 +205,7 @@ def parse_bccwj(xml, tgr_id):
             if sent.parentNode.tagName == "quotation":
                # sent.getAttribute('type') == "verse":
                 continue
-            db_value += store_db(sent)
+            db_value += restore_tgr(sent)
     return db_value
 
 
@@ -231,19 +242,19 @@ if __name__ == '__main__':
                 buf = []
                 for line in lines:
                     line = line.decode('utf-8')
-                    # extracted ID, example: OC10_00000m_0
+                    # ex. extracted ID: OC10_00000m_0
                     raw_id = search_id.match(line.strip())
                     if raw_id:
-                        # New sentences
+                        # A new sentence
 
                         tgr_raw_id = raw_id.groups(0)[0]
                         id = tgr_raw_id[:-3]  # remove 'm_0'
 
-                        # open BCCWJ file
-                        # Confirm xml file and pass it if does not exists
+                        # Open a file in BCCWJ,
+                        # then check whether the file exists or not
                         xml = "%s/%s.xml" % (opts.bccwj_dir, id)
                         if not os.path.exists(xml):
-                            print >>sys.stderr, "The xml doesn't exists, passing it: %s in %s" % (xml, f)
+                            print >>sys.stderr, "The xml doesn't exists, because you are using a release version of BCCWJ, is skipped: %s in %s" % (xml, f)
                             continue
 
                         sentences = parse_bccwj(xml, tgr_raw_id)
@@ -259,7 +270,7 @@ if __name__ == '__main__':
                         contents.append('</contents>\n')
                         buf.append(contents)
                     else:
-                        # Add the line to now processing article
+                        # Add the line to the now processing article
                         buf[-1].append(line)
                 # tgr_file = opts.out_dir+'/'+id+'.tgr'
                 try:
