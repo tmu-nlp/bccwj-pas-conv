@@ -5,6 +5,7 @@ import sys
 import re
 import os
 from glob import glob
+from copy import deepcopy
 from xml.dom import minidom
 from optparse import OptionParser
 
@@ -25,89 +26,87 @@ def check_sampling(sentence):
     else:
         return ""
 
+
+def tagged_char(element):
+    if element.tagName == 'sampling': pass
+    elif element.tagName == 'ruby':
+        return element.childNodes[0].data
+    elif element.tagName == 'correction':
+        return element.childNodes[0].data
+    return ""
+
+def processing_suw(suw, prevs, skip_next):
+    db_value = deepcopy(prevs)
+    if suw.tagName == 'fraction':
+        skip_next = False
+        for e,s in enumerate(suw.getElementsByTagName('SUW')):
+            if skip_next: skip_next = False; continue
+            if s.parentNode.tagName == 'NumTrans':
+                text = s.getAttribute('originalText')
+                if text == u'／':
+                    # reverse a numerator and a denominator
+                    nnode = suw.getElementsByTagName('SUW')[e+1]
+                    nnode_text = nnode.getAttribute('originalText') or \
+                                 nnode.childNodes[0].data
+                    db_value = db_value[:-1] + \
+                               nnode_text + u'／' + db_value[-1:]
+                    skip_next = True
+                else:
+                    db_value += text
+            else:
+                db_value += s.childNodes[0].data
+    elif suw.tagName == 'NumTrans':
+        db_value += suw.getAttribute('originalText')
+    elif suw.tagName == 'webBr':
+        db_value += '\n'
+    elif suw.tagName == 'SUW':
+        if len(suw.childNodes) > 1:
+            for elem_or_text in suw.childNodes:
+                try:
+                    db_value += tagged_char(elem_or_text)
+                except AttributeError:
+                    db_value += elem_or_text.data
+                except IndexError:
+                    pass
+        else:
+            try:
+                if suw.childNodes[0].tagName == 'enclosedCharacter':
+                    # Now go in <LUW ...><SUW ...>\
+                    # <enclosedCharacter description="some character"> here </...>
+                    db_value += suw.childNodes[0].childNodes[0].data
+                elif suw.childNodes[0].tagName == 'ruby':
+                    db_value += suw.childNodes[0].childNodes[0].data
+                elif suw.childNodes[0].tagName == 'correction':
+                    db_value += suw.childNodes[0].childNodes[0].data
+            except AttributeError:
+                db_value += suw.childNodes[0].data
+    elif suw.tagName == 'LUW':
+        # Following is used in except OC
+        nested_luw = suw
+        for suw in nested_luw.childNodes:
+            db_value = processing_suw(suw, db_value, False)
+    elif suw.tagName == 'noteMarker':
+        db_value += suw.getAttribute('text')
+    elif suw.tagName == 'sampling':
+        pass
+    else:
+        print "Unknown tag name on SUW position:", suw.tagName
+
+    return db_value
+
+
 def extract_text(luw):
     "Extracting text from the xml node 'LUW'"
 
-    db_value = ""
     nsib = luw.nextSibling
     article = luw.parentNode.parentNode.parentNode
+    skip_next = False
 
+    results = ""
     for suw in luw.childNodes:
-        if suw.tagName == 'fraction':
-            skip_next = False
-            for e,s in enumerate(suw.getElementsByTagName('SUW')):
-                if skip_next: skip_next = False; continue
-                if s.parentNode.tagName == 'NumTrans':
-                    text = s.getAttribute('originalText')
-                    if text == u'／':
-                        # reverse a numerator and a denominator
-                        nnode = suw.getElementsByTagName('SUW')[e+1]
-                        nnode_text = nnode.getAttribute('originalText') or \
-                                     nnode.childNodes[0].data
-                        db_value = db_value[:-1] + \
-                                   nnode_text + u'／' + db_value[-1:]
-                        skip_next = True
-                    else:
-                        db_value += text
-                else:
-                    db_value += s.childNodes[0].data
-        elif suw.tagName == 'NumTrans':
-            db_value += suw.getAttribute('originalText')
-        elif suw.tagName == 'webBr':
-            db_value += '\n'
-        elif suw.tagName == 'SUW':
-            if len(suw.childNodes) > 1:
-                for text in suw.childNodes:
-                    try:
-                        if text.tagName == 'sampling': pass
-                        elif text.tagName == 'ruby':
-                            db_value += text.childNodes[0].data
-                        elif text.tagName == 'correction':
-                            # db_value += text.childNodes[0].data
-                            # try:
-                            db_value += text.childNodes[0].data
-                            # except AttributeError:
-                            #     pass
-                    except AttributeError:
-                        db_value += text.data
-                    except IndexError:
-                        pass
-            else:
-                try:
-                    if suw.childNodes[0].tagName == 'enclosedCharacter':
-                        # Now go in <LUW ...><SUW ...>\
-                        # <enclosedCharacter description="Some character"> here </...>
-                        db_value += suw.childNodes[0].childNodes[0].data
-                    elif suw.childNodes[0].tagName == 'ruby':
-                        db_value += suw.childNodes[0].childNodes[0].data
-                except AttributeError:
-                    db_value += suw.childNodes[0].data
-        elif suw.tagName == 'LUW':
-            # Following is used in except OC
-            luw = suw
-            for suw in luw.childNodes:
-                if suw.tagName == 'SUW':
-                    for in_suw in suw.childNodes:
-                        try:
-                            if in_suw.tagName == 'correction':
-                                # Now go in <LUW ...><SUW ...>\
-                                # <correction originalText="..." type="..."> here </...>
-                                db_value += in_suw.getAttribute('originalText')
-                            elif in_suw.tagName == 'ruby':
-                                db_value += in_suw.childNodes[0].data
-                        except AttributeError:
-                            db_value += in_suw.data
 
-                if suw.tagName == 'NumTrans':
-                    db_value += suw.getAttribute('originalText')
-        elif suw.tagName == 'noteMarker':
-            db_value += suw.getAttribute('text')
-        elif suw.tagName == 'sampling':
-            pass
-        else:
-            print "Unknown tag name on SUW position:", suw.tagName
-
-    return db_value
+        results = processing_suw(suw, results, skip_next)
+    return results
 
 
 def restore_tgr(dom):
@@ -149,14 +148,13 @@ def restore_tgr(dom):
 
         if luw.parentNode.lastChild == luw and \
            luw.parentNode.tagName != "quote"  and \
-            (luw.parentNode.nextSibling.nextSibling == None \
+            (luw.parentNode.nextSibling.nextSibling == None
              or luw.parentNode.nextSibling.nextSibling.tagName != "LUW") and \
-            (dom.getAttribute('type') != 'fragment' \
+            (dom.getAttribute('type') != 'fragment'
              or dom.nextSibling.nextSibling == None):
             # TODO: I don't know why, but in some case,
-            # do not break after the fragment.
+            # it is not done newline after a fragment.
             db_value += "\n"
-        # if luw.parentNode.lastChild == luw
 
         if nsib == None: continue
     return db_value
@@ -186,6 +184,8 @@ def parse_bccwj(xml, tgr_id):
     else:
         contents = xmldoc.getElementsByTagName("div")
     for each_ad in contents:
+        if each_ad.getAttribute('articleID').endswith('Answer'):
+            db_value += '\n'
         for sent in each_ad.getElementsByTagName('sentence'):
             if tgr_id.endswith("m_0") and sent.parentNode.tagName != "div":  # div の条件分岐はいらない?
                 _sampling_flag = check_sampling(sent)

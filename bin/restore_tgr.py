@@ -54,7 +54,7 @@ def store_db(dom):
             else:
                 print "Unknow tag name on SUW position:", suw.tagName
 
-        # If it is the last element, add newlines.
+        # If it is the last element, add a newline.
         if luw.parentNode.lastChild == luw and \
            luw.parentNode.tagName != "quote" and \
             (luw.parentNode.nextSibling.nextSibling == None or

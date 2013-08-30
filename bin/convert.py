@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
 
+# This file is forked convert.py that for OC.
+# Although probably the file also can parse OC,
+# It is not tested in OC.
+
+
 __version__ = '1.2'
 
 import re
@@ -14,7 +19,6 @@ from optparse import OptionParser
 from glob import glob
 from copy import copy
 from env_cabocha import envCaboCha
-# import CaboCha
 
 def pp(obj):
     # The method is to debug
@@ -24,7 +28,68 @@ def pp(obj):
     return re.sub(r"\\u([0-9a-f]{4})", lambda x: unichr(int("0x"+x.group(1),
                                                             16)), str)
 
-class Extracted():
+class TgrTags:
+    def __init__(self):
+        # start_keys_dict is DefaultOrderedDict that each key is the start position of words
+        # end_key_dict is almost same it
+        # tag is the list of information of a tag
+
+        self.s_dict = DefaultOrderedDict(lambda: DefaultOrderedDict(list))
+        self.e_dict = DefaultOrderedDict(lambda: DefaultOrderedDict(list))
+
+    def set_tag(self, start_line, start_position, end_line, end_position, tag):
+        self.s_dict[start_line][start_position].append(tag)
+        self.e_dict[end_line][end_position].append(tag)
+
+    def get_by_start(self, start_line, start_pos):
+        return self.s_dict[start_line][start_pos]
+
+    def get_by_end(self, end_line, end_pos):
+        return self.e_dict[end_line][end_pos]
+
+    def get_by_offset(self, start_line, start_pos, end_line, end_pos):
+        got_tags = []
+        starts = self.get_by_start(start_line, start_pos)
+        ends   = self.get_by_end(end_line, end_pos)
+
+        # judge head
+        for tag in starts:
+            refer_tag = tag[0]  # such as ガ, オ, ニ
+            if refer_tag == u'述語':
+                got_tags.append(tag)
+
+        for tag in ends:
+            refer_tag = tag[0n]
+            if refer_tag != u'述語':
+                got_tags.append(tag)
+
+        return got_tags
+
+    def words(self):
+        return self.e_dict
+
+# Now using OrderedDefaultDict(dict) that each key is the end position of words instead of it
+# class BCCWJWords:
+#     def __init__(self):
+#         # start_keys_dict is DefaultOrderedDict that each key is the start position of words
+#         # end_key_dict is almost same it
+#         # tag is the list of information of a tag
+#         self.s_dict = DefaultOrderedDict(dict)
+#         self.e_dict = DefaultOrderedDict(dict)
+
+#     def set_word(self, start_line, start_position, end_line, end_position, morph):
+#         self.s_dict[start_line][start_position] = morph
+#         self.e_dict[end_line][end_position] = morph
+
+
+#     def get_by_start(start_line, start_pos):
+#         return self.s_dict[start_line][start_pos]
+
+#     def get_by_end(end_line, end_pos):
+#         return self.e_dict[start_line][start_pos]
+
+
+class Extracted:
     def __init__(self, id):
         self.id = id
         self.last = 1
@@ -32,7 +97,8 @@ class Extracted():
         self.prev_line_end = 1
         self.number = {}
         self.contents = []
-        self.tags = DefaultOrderedDict(list)
+        # self.tags = DefaultOrderedDict(list)
+        self.tgr_tags = TgrTags()
         self.morph = DefaultOrderedDict(dict)
 
         # For debug
@@ -42,141 +108,243 @@ class Extracted():
     def set_contents(self, c):
         self.contents = c.split('\n')
 
-    def set_morph(self, xml):
+    def convert(self, node, numtrans=False):
+        """ Convert morphlogical information of SUW to dict. """
 
-        def convert(node):
-            """ Convert morphlogical information of SUW to dict. """
+        def tagged_char(element):
+            if element.tagName == 'sampling':
+                return ""
+            elif element.tagName == 'ruby':
+                return element.childNodes[0].data
+            elif element.tagName == 'correction':
+                if element.childNodes:
+                    return element.childNodes[0].data
+                else:
+                    return ""
+            elif element.tagName == 'enclosedCharacter':
+                return element.childNodes[0].data
+            else:
+                print >>stderr, "Found the unknown tag in the position of tagged charachter:", element.tagName
 
-            try:
-                morph = {k:v.nodeValue for k,v in dict(node.attributes).iteritems()}
-                morph['word'] = node.getAttribute('originalText') or \
-                                node.childNodes[0].data
-                morph['start'] = int(node.getAttribute('start'))/10 - self.prev_line_end
-                morph['end'] = int(node.getAttribute('end'))/10 - self.prev_line_end
-                self.last = int(node.getAttribute('end'))/10
-                return morph
-            except: print "RERERE"  # TODO: Check the fraction SUW
+        morph = {k:v.nodeValue for k,v in dict(node.attributes).iteritems()}
+        if not numtrans:
+            # in general case
+            morph['word'] = ""
+            for elem_or_text in node.childNodes:
+                # Trying in the case of tagged node
+                try:
+                    morph['word'] += tagged_char(elem_or_text)
+                except AttributeError:
+                    morph['word'] += elem_or_text.data
+        else:
+            # If the node is in a NumTrans tag
+            morph['word'] = node.getAttribute('originalText')
+
+        morph['start'] = int(node.getAttribute('start'))/10 - self.prev_line_end
+        morph['end'] = int(node.getAttribute('end'))/10 - self.prev_line_end
+        self.last = int(node.getAttribute('end'))/10
+
+        if not morph['word']:
+            pass
+        return morph
 
 
-        def add_line():
-            """ Add buffer new line. """
-            self.prev_line_end = self.last
-            self.current_line += 1
+    def add_line(self):
+        """ Add new line to the buffer """
+        self.prev_line_end = self.last
+        self.current_line += 1
 
-        fraction_id = 0  # Used instead of start position of fraction slash
-        for article in xml.getElementsByTagName('article'):
-            if article.getAttribute('articleID').endswith('-Answer'):
+    def restore_fraction(self, fraction_node):
+        """ Restore fraction node """
+
+        skip_next = False
+        for e,s in enumerate(fraction_node.getElementsByTagName('SUW')):
+            # Skip current node for the fraction.
+            if skip_next: skip_next = False; continue
+            if s.parentNode.tagName == 'NumTrans':
+                text = s.getAttribute('originalText')
+                if text == '／':
+
+                    slash_morph = convert(s)
+                    # Reversing numerator and denominator
+                    nnode = suw.getElementsByTagName('SUW')[e+1]
+                    nnode_morph = convert(nnode)
+                    if not nnode_morph: print self.id;continue
+                    self.last = nnode_morph['end']
+                    # XXX: Can obtain the correct text with following sequence:
+                    # 1. Previous words
+                    # 2. Numerator
+                    # 3. Fraction slash
+                    # 4. Denominator
+                    current_line_morphs = \
+                                self.morph[self.current_line].values()
+                    fraction_prevs = dict([(i['end'],i) \
+                                        for i in current_line_morphs[:-1]])
+                    fraction_next = dict([(i['end'],i) \
+                                        for i in current_line_morphs[-1:]])
+
+                    # Changing position numerator and denominator
+
+                    # Numerator
+                    numer_key   = fraction_next.keys()[-1]
+                    numer_value = copy(nnode_morph)
+                    numer_value['start'] = fraction_next[numer_key]['start']
+                    numer_value['end'] = fraction_next[numer_key]['end']
+                    # denominator = [(next_key, next_value)]
+
+                    # slash
+                    slash_position = slash_morph['end']
+
+                    # denominator
+                    denom_position = nnode_morph['end']
+                    denom_value    = copy(fraction_next.values()[-1])
+                    denom_value['start'] = nnode_morph['start']
+                    denom_value['end'] = nnode_morph['end']
+
+                    # key = self.morph[self.current_line].keys()[0]
+                    self.morph[self.current_line] = dict(
+                            fraction_prevs.items() + \
+                            {numer_key: numer_value,  # numerator
+                             slash_position: slash_morph, # slash
+                            denom_position: denom_value  # denominator
+                            }.items()
+                    )
+                    prev_end = nnode.getAttribute('end')
+                    skip_next = True  # Next node is already obtained.
+                else:
+                    morph = self.convert(s)
+                    if morph:
+                        self.morph[self.current_line][morph['end']] = morph
+            else:
+                morph = self.convert(s)
+                if morph:
+                    self.morph[self.current_line][morph['end']] = morph
+
+    def restore_suw(self, suw):
+        """ Restore original words from luw of tgr format """
+        # TODO: define new function for fraction
+        if suw.tagName == 'fraction':
+            self.restore_fraction(suw)
+        elif suw.tagName == 'NumTrans':
+            for suw_in_numtrans in suw.getElementsByTagName('SUW'):
+                morph = self.convert(suw_in_numtrans, numtrans=True)
+                # Looks like sometimes morph doesn't even exist
+                # (komachi 2013-01-19)
+                if morph:
+                    self.morph[self.current_line][morph['end']] = morph
+                    self.current_last = morph['end']
+
+        elif suw.tagName == 'webBr':
+            self.add_line()
+        elif suw.tagName == 'SUW':
+            morph = self.convert(suw)
+            if morph:
+                self.morph[self.current_line][morph['end']] = morph
+                self.current_last = morph['end']
+        elif suw.tagName == 'LUW':
+            # nested luw, is not used in OC
+            nested_luw = suw
+            for suw in nested_luw.childNodes:
+                self.restore_suw(suw)
+
+        elif suw.tagName == 'sampling':
+            pass
+        else:
+            print >>stderr, "found unknown tag name on SUW position:", suw.tagName
+
+    def restore_luw(self, luw, sentence_node):
+        nsib = luw.nextSibling
+        psib = luw.previousSibling
+        if luw.tagName == 'webBr':
+            if psib != None and psib.tagName != 'webBr' and nsib != None:
                 add_line()
-            for sent in article.getElementsByTagName('sentence'):
-                if sent.parentNode.tagName == 'quote' or \
-                   sent.parentNode.tagName == 'quotation':
+        elif luw.tagName == 'quote':
+            quote = luw
+            for quote_luw in quote.childNodes:
+                self.restore_luw(quote_luw, quote)
+        elif luw.tagName == 'sampling':
+            pass
+        # TODO: handle noteMarker tags
+        elif luw.tagName != 'LUW':
+            print >>stderr, "Unknown tag name on LUW position:", luw.tagName
+
+        for suw in luw.childNodes:
+            self.restore_suw(suw)
+
+        # article = luw.parentNode.parentNode.parentNode
+        # If last element, insert newline. it is judged by some heuristics.
+        sent = sentence_node  # alias
+        if luw.parentNode.lastChild == luw and \
+           luw.parentNode.tagName != "quote" and \
+            (luw.parentNode.nextSibling.nextSibling == None
+             or luw.parentNode.nextSibling.nextSibling.tagName != "LUW") and \
+            (sent.getAttribute('type') != 'fragment'
+             or sent.nextSibling.nextSibling == None):
+            self.add_line()
+            # Do not use ac_flag.
+            # ac_flag = "QCAnswer"
+
+
+    def restore_sentence(self, sentence_node):
+        """
+        Restore original sentence from tgr format
+
+        """
+
+        for luw in sentence_node.childNodes:
+            self.restore_luw(luw, sentence_node)
+
+    def set_morph(self, xml):
+        # fraction_id = 0  # Used  instead of start position of fraction slash
+
+        # for article in xml.getElementsByTagName('article'):
+        #     if article.getAttribute('articleID').endswith('-Answer'):
+        #         add_line()
+        #     for sent in article.getElementsByTagName('sentence'):
+        #         self.restore_sentence(sent)
+
+        def check_sampling(sentence):
+            # This function returns a string that "start" or "end" or empty
+            sampling = sentence.getElementsByTagName("sampling")
+            if sampling:
+                start_or_end = sampling[0].getAttribute("type")
+                if start_or_end == "start":
+                    return "start"
+                elif start_or_end == "end":
+                    return "end"
+            else:
+                return ""
+
+        sampling_flag = False
+        sampling_end_flag = False
+        if self.id.endswith("m_0"):
+            article = xml.getElementsByTagName("article")
+            contents = article
+        else:
+            contents = xml.getElementsByTagName("div")
+        for each_ad in contents:
+            if each_ad.getAttribute('articleID').endswith('Answer'):
+                add_line()
+            for sent in each_ad.getElementsByTagName('sentence'):
+                if self.id.endswith("m_0") and sent.parentNode.tagName != "div":  # div の条件分岐はいらない?
+                    _sampling_flag = check_sampling(sent)
+                    if _sampling_flag == "start":
+                        sampling_flag = True
+                    elif _sampling_flag == "end":
+                        sampling_flag = False
+                        sampling_end_flag = True
+
+                    if sampling_flag or sampling_end_flag:
+                        sampling_end_flag = False
+                        continue
+
+                if sent.parentNode.tagName == "quotation":
                     continue
-                for luw in sent.childNodes:
-                    nsib = luw.nextSibling
-                    psib = luw.previousSibling
-
-                    if luw.tagName == 'webBr':
-                        if psib != None and psib.tagName != 'webBr' and nsib != None:
-                            add_line()
-                    elif luw.tagName != 'LUW':
-                        print >>stderr, "Unknown tag name on LUW position:", luw.tagName
-                    # article = luw.parentNode.parentNode.parentNode
-
-                    for suw in luw.childNodes:
-                        if suw.tagName == 'fraction':
-                            skip_next = False
-                            for e,s in enumerate(suw.getElementsByTagName('SUW')):
-                                # Skip current node for fraction.
-                                if skip_next: skip_next = False; continue
-                                if s.parentNode.tagName == 'NumTrans':
-                                    text = s.getAttribute('originalText')
-                                    if text == '／':
-                                        node = convert(s)
-                                        # Reverse numerator and denominator
-                                        nnode = suw.getElementsByTagName('SUW')[e+1]
-                                        nnode_morph = convert(nnode)
-                                        if not nnode_morph: print self.id;continue
-                                        self.last = nnode_morph['end']
-                                        # XXX: Can obtain correct sequence text.
-                                        # 1. Previous words
-                                        # 2. Numerator
-                                        # 3. Fraction slash
-                                        # 4. Denominator
-                                        current_line_morphs = \
-                                                    self.morph[self.current_line].values()
-                                        fraction_prevs = dict([(i['end'],i) \
-                                                            for i in current_line_morphs[:-1]])
-                                        fraction_next = dict([(i['end'],i) \
-                                                            for i in current_line_morphs[-1:]])
-
-                                        # change position Numerator and Denominator
-
-                                        # Numerator
-                                        numer_key   = fraction_next.keys()[-1]
-                                        numer_value = copy(nnode_morph)
-                                        numer_value['start'] = fraction_next[numer_key]['start']
-                                        numer_value['end'] = fraction_next[numer_key]['end']
-                                        # denominator = [(next_key, next_value)]
-
-                                        # Slash
-                                        slash_position = node['end']
-                                        slash_morph = node
-
-                                        # Denominator
-                                        denom_position = nnode_morph['end']
-                                        denom_value    = copy(fraction_next.values()[-1])
-                                        denom_value['start'] = nnode_morph['start']
-                                        denom_value['end'] = nnode_morph['end']
-
-                                        # key = self.morph[self.current_line].keys()[0]
-                                        self.morph[self.current_line] = dict(
-                                                fraction_prevs.items() + \
-                                                {numer_key: numer_value,  # numerator
-                                                 slash_position: slash_morph, # slash
-                                                 denom_position: denom_value  # denominator
-                                                }.items()
-                                        )
-                                        prev_end = nnode.getAttribute('end')
-                                        skip_next = True  # Next node is already contained.
-                                    else:
-                                        morph = convert(s)
-                                        if morph:
-                                            self.morph[self.current_line][morph['end']] = morph
-                                else:
-                                    morph = convert(s)
-                                    if morph:
-                                        self.morph[self.current_line][morph['end']] = morph
-                        elif suw.tagName == 'NumTrans':
-                            for e,suw_in_numtrans in \
-                              enumerate(suw.getElementsByTagName('SUW')):
-                                morph = convert(suw_in_numtrans)
-                                # Looks like sometimes morph doesn't even exist
-                                # (komachi 2013-01-19)
-                                if morph:
-                                    self.morph[self.current_line][morph['end']] = morph
-                                    self.current_last = morph['end']
-                        elif suw.tagName == 'webBr':
-                            add_line()
-                        elif suw.tagName == 'SUW':
-                            morph = convert(suw)
-                            if morph:
-                                self.morph[self.current_line][morph['end']] = morph
-                                self.current_last = morph['end']
-                        else:
-                            print >>stderr, "found unknown tag name on SUW position:", suw.tagName
-
-                    # If last element, insert newline.
-                    if luw.parentNode.lastChild == luw and \
-                       luw.parentNode.tagName != "quote" and \
-                        (luw.parentNode.nextSibling.nextSibling == None or
-                         luw.parentNode.nextSibling.nextSibling.tagName != "LUW") and \
-                        (sent.getAttribute('type') != 'fragment' or \
-                         sent.nextSibling.nextSibling == None):
-                        add_line()
-                        # Do not use ac_flag.
-                        # ac_flag = "QCAnswer"
+                self.restore_sentence(sent)
 
     def set_tags(self, t):
+        # Processing for tgr tags
+
         for e,i in enumerate(t.splitlines()):
             if not i or i.startswith('np'): continue
             tag = i.strip().split('\t')
@@ -188,23 +356,8 @@ class Extracted():
             start[0] -= 1
             end[0]   -= 1
 
-            id = '.'.join([str(i) for i in end])
+            info = []
 
-            # for k in [key for key, prev_range in self.tags.iteritems() \
-            #           if tag_range == prev_range[2]]:
-            match_key = ""
-            for key, prev_ranges in self.tags.iteritems():
-                for prev_range in prev_ranges:
-                    if tag_range == prev_range[3]:
-                        match_key = key
-            if match_key:
-                # If same id in self.tags
-                self.tags[match_key].append([])
-                info = self.tags[match_key][-1]
-            else:
-                # If new item
-                self.tags[id] = [[]]
-                info = self.tags[id][0]
             info.append(tag[0][:]) # tag name
             # info.append(tag_range) # range of tag
             word = ''
@@ -217,11 +370,11 @@ class Extracted():
                 word = ''.join([self.contents[start[0]][start[1]:],
                                 self.contents[end[0]][:end[1]]])
             if not word:
-                print >>stderr, "Cannot obtain word at %d.%d ~ %d.%d in %s" % \
+                print >>stderr, "Cannot obtain the word at %d.%d ~ %d.%d in %s" % \
                     (start[0], start[1], end[0], end[1], self.id)
             info.append(word)  # word
+            manage = tag[3].split(';')  # id and link information
             if 'ln=' in tag[3]:
-                manage = tag[3].split(';')
                 # management info id(id) and reference to it(ln)
                 if manage[0].startswith('id='):
                     info.append({'id':re.sub('^id=', '', manage[0]),
@@ -230,14 +383,15 @@ class Extracted():
                     info.append({'id':re.sub('^id=', '', manage[1]),
                                  'ln':re.sub('^ln=', '', manage[0])})
             else:
-                info.append({'id':re.sub('^id=', '', tag[3])[:-1]}) # management info id
+                info.append({'id':re.sub('^id=', '', manage[0])}) # management info id
             info.append(tag_range)
-            # self.tags[info[1][0]] = info
             self.number[id] = int(re.sub('id:', '', tag[1]))
 
+            self.tgr_tags.set_tag(start[0], start[1], end[0], end[1], info)
+
             # Error check to debug
-            self.starts.append(start)
-            self.ends.append(end)
+            # self.starts.append(start)
+            # self.ends.append(end)
 
     def check_morphs(self):
         for start, end in zip(self.starts, self.ends):
@@ -249,18 +403,22 @@ class Extracted():
 
 
     def get_tags(self):
-        # sorting to make a sorted dictionary
-        # self.tags, for example {1(end line): {2(end position): [ ..word info... ] ...} ...}
-        def sorted_tags_key(dict_key):
-            (line, position) = dict_key.split('.')
-            position = position.zfill(4)
-            return float(line+'.'+position)
+        # # sorting to make the sorted dictionary
+        # # self.tags, for example {1(end line): {2(end position): [ ..word info... ] ...} ...}
+        # def sorted_tags_key(dict_key):
+        #     (line, position) = dict_key.split('.')
+        #     position = position.zfill(4)
+        #     return float(line+'.'+position)
 
-        tags = DefaultOrderedDict(dict)
-        for k,v in sorted(self.tags.iteritems(),
-                             key=lambda t: sorted_tags_key(t[0])):
-            tags[k] = v
-        return tags
+
+        # tags = DefaultOrderedDict(dict)
+        # for k,v in sorted(self.tags.iteritems(),
+        #                      key=lambda t: sorted_tags_key(t[0])):
+        #     tags[k] = v
+        # return tags
+
+        # Now this function returns be not sorted dictionary
+        return self.tgr_tags
 
     def get_morph(self):
         # Sorting to make a sorted dictionary
@@ -275,8 +433,8 @@ class Extracted():
 
 def tgr_parser(contents):
     """
-    tgr ファイルをそれぞれのコンテンツに分割し、
-    Extracted クラスのリストとして返す。
+    Spliting a tgr file to contents,
+    and returning the list of a Extracted class
     """
     id_pat  = re.compile(r"^<text id=(\w+)>$")
     contains = "normal"
@@ -328,7 +486,10 @@ def inputs(tgr_file, xml_folder):
         if text_id.endswith('m_[1-9]'):
             exit(-1)
         filename = re.sub('m_0', '', text_id)
-        xml = minidom.parse("%s/%s.xml" % (xml_folder, filename))
+        try:
+            xml = minidom.parse("%s/%s.xml" % (xml_folder, filename))
+        except IOError, e:
+            print >>stderr, "Cannot open the BCCWJ file, so it is skipped"
         extracted.set_morph(xml)
 
     return tgrs
@@ -372,14 +533,14 @@ class LineChunks:
         except AttributeError:
             return fail
 
-class tags:
+class Tags:
     def get_tags(self):
         return self.tags
 
     def set_tags(self, tag):
         self.tags = dict(tag.items() + self.tags.items())
 
-class JoinedTag(tags):
+class JoinedTag(Tags):
     def __init__(self, word, morph_info):
         self.word = word
         self.morph_info = morph_info
@@ -400,10 +561,10 @@ class JoinedTag(tags):
             output += "_"
         return output
 
-class AlreadyTags(tags):
+class AlreadyTags(Tags):
     """
     Already got tags before a verb word.
-    It will merge JoinedTag when found verb word
+    It will merge JoinedTag when found the verb word
     """
     def __init__(self, tags={}):
         self.tags = tags
@@ -586,7 +747,7 @@ class classify:
             chunk_number = int(chunk[1])
             insert_chunk(key(), chunk, end_line, end_index)
         else:
-            # Try to access next chunk
+            # Trying to get next chunk
             # on difference position between previous chunk
             if end_line == self.last_chunk_offset[0]:
                 p_end_position = self.last_chunk_offset[1]
@@ -604,7 +765,7 @@ class classify:
 
     # def fix_double_word(self, word, previous_word):
     #     # If previous word is substring of current word,
-    #     # remove the part of substring in current word.
+    #     # remove the part of substring in it.
     #     # For example, previous word: 保育, current word: 保育園
     #     # After current word: 園
     #     if previous_word:
@@ -613,7 +774,7 @@ class classify:
     #             # this code has issue:
     #             # Sentence: ...|の|男の子|...
     #             # If tagged 'の' and '男の子' in tgr,
-    #             # Wrong matching. prev: の this: 男の子
+    #             # it is wrong matching likes: prev: の this: 男の子
     #             print >>stderr, "Double words. Current word replace:", \
     #                 "prev:%s this:%s" % (p_word_name, word)
     #             word = re.sub(p_word_name, "", word)
@@ -642,7 +803,7 @@ class classify:
                     self.result[prev_pred].set_tags({"alt": "causative"})
                 else:
                     # FIXME
-                    print >>stderr, "Cannot found pred for causative"
+                    print >>stderr, "Not found a pred for causative"
                 self.pword_causative_flag = True
 
             elif word_lemma in (u"れる", u"られる"):
@@ -652,13 +813,13 @@ class classify:
                     if prev_pred:
                         self.result[prev_pred].set_tags({"alt": "passive"})
                     else:
-                        print >>stderr, "Cannot found pred for causative"
+                        print >>stderr, "Not found a pred for causative"
                 elif self.pword_causative_flag:
                     prev_pred = find_pred_key(self.result, search_range=(2,3))
                     if prev_pred:
                         self.result[prev_pred].set_tags({"alt": "causative/passive"})
                     else:
-                        print >>stderr, "Cannot found pred for causative/passive"
+                        print >>stderr, "Not found a pred for causative/passive"
                 self.pword_causative_flag = False
         else:
             # If previous word was pred, this is active
@@ -674,24 +835,24 @@ class classify:
         # Judge reference zero(True) or dep(False)
 
         def get_offset_from_tags(id):
-            for k,same_offset_values in self.all_tags.iteritems():
-                for value in same_offset_values:
-                    if value[2].get('id', "") == id:
-                        return k
+            for line_n,line in self.all_tags.words().iteritems():
+                for pos_n, same_offset_tags in line.iteritems():
+                    for tag in same_offset_tags:
+                        if tag[2].get('id', "") == id:
+                            return (line_n, pos_n)
 
         if exo_flag:
             return "zero"
         if word_ln:
-            ln_offset = get_offset_from_tags(word_ln)
+            ln_offset = get_offset_from_tags(word_ln)  # pred or noun offset
             if not ln_offset:
                 print >>stderr, "Not found link id in self.all_tags"
                 return  # cannot judge
-            ln_offset = tuple(map(int, ln_offset.split('.')))  # pred offset
             my_offset = word_offset                            # ga,o,ni,.. offset
-            if ln_offset[0]-1 == my_offset[0]:  # If same line
+            if ln_offset[0]-1 == my_offset[0]:  # If same line  # FIXME: describe to discrese
 
                 my_chunk = line_chunks.get_chunk_from_pos(my_offset[1], amb=True)
-                my_id, my_link_id = (int(my_chunk[1]), int(my_chunk[2][:-1]))
+                my_id, my_link_id = (int(my_chunk[1]), int(my_chunk[2][:-1]))  # id, link
                 if my_link_id == '-1':  # no refer
                     return "zero"
                 my_link = line_chunks.get_chunk_from_id(my_link_id)  # link info
@@ -700,7 +861,10 @@ class classify:
                     print >>stderr, "Not found link chunk in current line"
                     return  # cannot judge
                 ln_id, ln_link = (int(ln_chunk[1]), int(ln_chunk[2][:-1]))
-                if ln_id == my_link_id or my_id == ln_id or ln_link == my_id:
+                if my_id == ln_id:
+                    # same chunk
+                    return "sc"
+                elif ln_id == my_link_id or ln_link == my_id:
                     return "dep"
                 else:
                     return "zero"
@@ -716,10 +880,10 @@ class classify:
             if match: return match[0]
             else: return None
 
-        # tag_and_links is dict,
-        # It is cannot convert to dict because it has same key in some case.
-        word_tag = [k for (k,v) in tag_and_link]
-        word_links = [k for (k,v) in tag_and_link]
+        # if tag_and_links is dict,
+        # it could not convert to dict because there have same key in some case.
+        word_tags = [k for (k,v) in tag_and_link]
+        word_links = [v for (k,v) in tag_and_link]
         self.check_chunk_inserting(end_line, end_index)
 
         if end_line == 0:
@@ -732,7 +896,7 @@ class classify:
         original_lemma = morph['lemma'] if morph.get('lemma') else word
         self.check_alt(original_lemma)
 
-        if not word_links and not word_tag:
+        if not word_links and not word_tags:
             key_0 = "%d.%d" % (end_line, end_index)
             key_1 = self.bccwj_word_id
             self.result[(key_0, key_1)] = \
@@ -740,7 +904,7 @@ class classify:
             self.bccwj_word_id -= 1
             return
 
-        # Does not fix double word
+        # Now the issue with double words won't fix
         # if not exo_flag:
         #     previous = self.result.values()#[-1]#.get_word()
         #     previous_word = previous[-1] if previous else ""
@@ -769,12 +933,20 @@ class classify:
                                 JoinedTag(word, "%s %s %s" % (lform, lemma, output_pos))
                     self.result[key].set_tags({"type": pos_type})
             elif tag in (u"ガ", u"ヲ", u"ニ", u"ハ"):
+                if end_line == 7 and end_index == 24:
+                    pass
                 gaoni = self.gaonimap(tag)
-                if self.judge_zero(exo_flag, (end_line, end_index), links['id'],
-                                   links.get('ln'), self.chunks[end_line]) == "zero":
-                    gaoni_type = "zero"
-                else:
-                    gaoni_type = "dep"
+                # try:
+                    # if self.judge_zero(exo_flag, (end_line, end_index), links['id'],
+                    #                    links.get('ln'), self.chunks[end_line]) == "zero":
+                    #     gaoni_type = "zero"
+                    # else:
+                    #     gaoni_type = "dep"
+                gaoni_type = self.judge_zero(exo_flag, (end_line, end_index), links['id'],
+                                             links.get('ln'), self.chunks[end_line])
+                # except TypeError, e:
+                #     print >>stderr, "Catch %s when judge wheather zero reference" % e
+                #     gaoni_type = "zero"
 
                 if search_value(self.result, links['id']) or exo_flag:
                     exo = self.exomap(end_index)
@@ -886,7 +1058,7 @@ class classify:
             if type(joined) == str_type:  # chunk
                 chunk = joined
                 if chunk.split(' ')[1] == "0":
-                    if not file_head:  # Does NOT append EOS in file head
+                    if not file_head:  # Checking whether does append EOS in the file head or not
                         res.append("EOS")
                     file_head = False
                     res.append("# S-ID:%s_%s KNP:96/10/27 %s/%s/%s" % \
@@ -900,91 +1072,100 @@ class classify:
         res.append("EOS")  # file tail
         return res
 
+def restore_from_morphs(morphs):
+    # to debug function, restore from morphs
+    import sys
+    write = sys.stdout.write
+    print "="*80
+    for line, lineMorphs in morphs.items():
+        print str(line)+';',
+        for index, morph in lineMorphs.items():
+            write(morph["word"])
+        print
+    print "="*80
+
+
 def output(tgr, tgr_id, cabocha_env):
     """
     Return a list of the same format as the NAIST Text Corpus.
     """
 
-    tags = tgr.get_tags()
-    print >>stderr, pp(tags.values())
+    tgr_interface = tgr.get_tags()
+    # print >>stderr, pp(dict(tags.items()))
     morphs = tgr.get_morph()
+    # restore_from_morphs(morphs)
     numbers = tgr.get_number()
 
     ## Join BCCWJ and tgr data
 
+    # def find_reference_word(tags, tgr_word, bccwj_offset):
+    #     # Matching a tagged word of tgr and a word of BCCWJ.
+    #     # If except this function, any tagged words assign the BCCWJ word that has the same end
+    #     # position, but this function returns the most almost word in BCCWJ by heuristick.
+    #     # `tags`: all tags in tgr
+    #     # `tgr_word`: the string of tgr word
+    #     # `bccwj_offset`: the tuple of a word offset in BCCWJ
+    #     # return: the most nearly word in BCCWJ
+    #     raise Exception("Implementation Error: the function is not implemented.")
+
+
     def convert_same_offset(same_offset_tags):
         if not same_offset_tags: return
-        word_tag = []
+        word_tags = []
         for tag in same_offset_tags:
-            # refer_tag such as ガ,オ,ニ
+            # refer_tag is such as ガ,オ,ニ
             (refer_tag, word_name, link, tag_range) = tag
             # word_tag[refer_tag] = link
-            word_tag.append((refer_tag, link))
-        return (word_name, word_tag, tag_range)
+            word_tags.append((refer_tag, link))
+        return (word_name, word_tags, tag_range)
+
+    def judge_head(tag, morph, start_line, start_pos, end_line, end_pos):
+
+        pass
 
 
     referred_tag_number = -1
-    classification = classify(tags, morphs, tgr_id, use_cabocha=True, cabocha_env=cabocha_env)
+    classification = classify(tgr_interface, morphs, tgr_id, use_cabocha=True, cabocha_env=cabocha_env)
     for end_line, line_morphs in morphs.iteritems():
         if end_line == -1: continue  # exo will be processed after this
         for end_index, morph in line_morphs.iteritems():
-            tag_positions = tags.keys()
-            key = str(end_line+1) + '.' + str(end_index)
-            same_offset_tag = tags.get(key, [])
-            bccwj_word = morph['word']
-            if same_offset_tag:
-                # Tagged data matched end position in BCCWJ.
-                (word_name, tag, tag_range) \
-                    = convert_same_offset(same_offset_tag)
-                classification.apply(bccwj_word, morph,
-                                     tag, end_line, end_index)
-                referred_tag_number = tag_positions.index(key)
-            else:
-                # To find correct end position.
-                for r in range(1, len(bccwj_word)):
-                    key = str(end_line+1) + '.' + str(end_index-r)
-                    position = end_index-r
-                    same_offset_tag = tags.get(key, [])
-                    skip_flag = False
-                    if same_offset_tag:
-                        (word_name, tag, tag_range) \
-                            = convert_same_offset(same_offset_tag)
-                        if word_name in bccwj_word:
-                            print >>stderr, "Treat %s in BCCWJ as %s in tgr" % \
-                                (bccwj_word, word_name)
-                            classification.apply(bccwj_word, morph, tag,
-                                                 end_line, position)
-                            referred_tag_number = tag_positions.index(key)
-                            skip_flag = True
-                    if skip_flag:
-                        break
-                else:
-                    if len(tags)-1 != referred_tag_number:
-                        # If not refer last tag in current line
-                        n_key = tag_positions[referred_tag_number+1]
-                        n_tagged_morph = tags[n_key]
-                        n_word_name = n_tagged_morph[0][1]
-                    else:
-                        n_word_name = ""
+            bccwj_word_name = morph['word']
 
-                    # if n_word_name and bccwj_word in n_word_name:
-                    #     print >>stderr, "Skipped %s in BCCWJ: %s in tgr" % \
-                    #         (bccwj_word.encode('utf-8'), n_word_name.encode('utf-8'))
-                    #     continue
-                    # else:
-                        # Cannot find same word in tgr.
-                    classification.apply(bccwj_word, morph,
-                                         end_line=end_line, end_index=end_index)
-    # processing exo
-    for offset,same_offset_tags in tags.iteritems():
-        (line,position) = map(int, offset.split('.'))
-        if line != 0: continue
-        (word_name, word_tag, tag_range) \
-            = convert_same_offset(same_offset_tags)
-        for (k,v) in word_tag:  # word_tag is list (doesn't dict)
-            if v['id'] == "newid0130":
+            # Adjust this word's offset between tgr and BCCWJ
+            tgr_start_line = end_line + 1
+            tgr_end_line   = end_line + 1
+            tgr_start_pos  = end_index - len(bccwj_word_name)
+            tgr_end_pos    = end_index
+
+            if bccwj_word_name == u"た":
                 pass
-        classification.apply(word_name, {}, word_tag, line, position)
+
+            # a list of tags in same offset
+            tags = tgr_interface.get_by_offset(tgr_end_line, tgr_start_pos,
+                                               tgr_end_line, tgr_end_pos)
+            if tags:
+                # The tagged data matched same end position of a word in BCCWJ.
+                (tgr_word_name, tag, tag_range) \
+                    = convert_same_offset(tags)
+
+                classification.apply(bccwj_word_name, morph,
+                                     tag, end_line, end_index)
+            else:
+                # Cannot find same word in tgr.
+                classification.apply(bccwj_word_name, morph,
+                                     end_line=end_line, end_index=end_index)
+
+    # processing exo
+    for line_n,line in tgr_interface.words().iteritems():  # line number, line
+        for pos, same_offset_tags in line.iteritems():   # position, same offset tags
+            # tag = same_offset_tags[0]
+            if line_n != 0: continue
+            (word_name, word_tag, tag_range) \
+                = convert_same_offset(same_offset_tags)
+            for (k,v) in word_tag:  # word_tag is list (doesn't dict)
+                if v['id'] == "newid0130":
+                    pass
+            classification.apply(word_name, {}, word_tag, line_n, pos)
 
     return classification.final_result()
 
@@ -1022,43 +1203,46 @@ if __name__ == '__main__':
                       action='store_true', default=False)
     (opts, args) = parser.parse_args()
 
-    PARSING = "OC"
+    PARSING = ("OC", "PB")  # And probably it also can parse OC
 
     cabocha_env = setup_cabocha_config()
     if not opts.debug_flag:
-        for dir in [n for n in os.listdir(opts.tgr_dir)
-                    if os.path.isdir(os.path.join(opts.tgr_dir, n))]:
-            try:
-                os.makedirs("%s/%s/%s" % (opts.out_dir, dir, PARSING))
-            except: pass
-            for root, current_d, files in os.walk("%s/%s/%s/" % (opts.tgr_dir, dir, PARSING)):
-                for f in glob(os.path.join(root, '*.tgr')):
-                    buff = ""
-                    name = os.path.basename(f)
-                    name = re.sub('.tgr', '.ntc', name)
-                    tgrs = inputs(f, opts.bccwj_dir)
-                    for tgr in tgrs:
-                        tgr_id = re.sub("m_0", "", tgr.id)
-                        converted = output(tgr, tgr_id, cabocha_env)
-                        buff += '\n'.join(converted) + '\n'
-                    try:
-                        with open('%s/%s/%s/%s' % (opts.out_dir, dir, PARSING, name), 'w') as fp:
-                            fp.write(buff.encode('utf-8'))
-                    except IOError, e:
-                        print >>stderr, "Cannot open %s:%s" % (name, e)
-                        exit(-1)
-                    except UnicodeDecodeError, e:
-                        print >>stderr, "Cannot decode %s:%s" % (name, e)
-                        exit(-1)
+        for CATEGORY in PARSING:
+            for dir in [n for n in os.listdir(opts.tgr_dir)
+                        if os.path.isdir(os.path.join(opts.tgr_dir, n))]:
+                try:
+                    os.makedirs("%s/%s/%s" % (opts.out_dir, dir, CATEGORY))
+                except: pass
+                for root, current_d, files in os.walk("%s/%s/%s/" % (opts.tgr_dir, dir, CATEGORY)):
+                    for f in glob(os.path.join(root, '*.tgr')):
+                        buff = ""
+                        name = os.path.basename(f)
+                        name = re.sub('.tgr', '.ntc', name)
+
+                        tgrs = inputs(f, opts.bccwj_dir)  # Obtain tags from tgr, and parsing BCCWJ xml
+
+                        for tgr in tgrs:
+                            tgr_id = re.sub(r"m_[0-9]", "", tgr.id)
+                            converted = output(tgr, tgr_id, cabocha_env)
+                            buff += '\n'.join(converted) + '\n'
+                        try:
+                            with open('%s/%s/%s/%s' % (opts.out_dir, dir, CATEGORY, name), 'w') as fp:
+                                fp.write(buff.encode('utf-8'))
+                        except IOError, e:
+                            print >>stderr, "Cannot open %s:%s" % (name, e)
+                            exit(-1)
+                        except UnicodeDecodeError, e:
+                            print >>stderr, "Cannot decode %s:%s" % (name, e)
+                            exit(-1)
     else:
-        # Experiment on one file.
+        # Experiment on the specified one file.
         # (print output to stdout and doesn't write any file)
         buff = ""
-        tgrs = inputs("./input/bccwj-fixed-13.03.18-2/A/OC/000.tgr",
+        tgrs = inputs("input/restored/A/PB/000.tgr",
                       opts.bccwj_dir)
         for tgr in tgrs:
             tgr_id = re.sub("m_0", "", tgr.id)
-            converted = output(tgr, tgr_id)
+            converted = output(tgr, tgr_id, cabocha_env)
             # buff += "# S-ID:%s KNP:96/10/27 %s/%s/%s\n" % \
             #         (tgr.id, d.year, d.month, d.day)
             buff += '\n'.join(converted) + '\n'

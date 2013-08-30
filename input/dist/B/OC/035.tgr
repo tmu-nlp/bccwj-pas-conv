@@ -161,38 +161,38 @@ np	id:7	[3.25, 3.27]	id=newid0108;
 np	id:8	[3.28, 3.30]	id=newid0109;
 np	id:9	[3.31, 3.32]	id=newid0111;
 np	id:10	[3.33, 3.34]	id=newid0112;
-np	id:11	[3.36, 3.38]	id=newid0113;
-np	id:12	[3.48, 3.50]	id=newid0114;
-np	id:13	[5.0, 5.1]	id=newid0115;
-np	id:14	[5.2, 5.3]	id=newid0116;
-np	id:15	[6.4, 6.6]	id=newid0117;
-np	id:16	[7.0, 7.4]	id=newid0119;
-np	id:17	[7.4, 7.5]	id=newid0120;
-np	id:18	[7.7, 7.9]	id=newid0121;
-np	id:19	[7.10, 7.12]	id=newid0123;
+np	id:11	[4.1, 4.3]	id=newid0113;
+np	id:12	[4.13, 4.15]	id=newid0114;
+np	id:13	[6.0, 6.1]	id=newid0115;
+np	id:14	[6.2, 6.3]	id=newid0116;
+np	id:15	[7.4, 7.6]	id=newid0117;
+np	id:16	[8.0, 8.4]	id=newid0119;
+np	id:17	[8.4, 8.5]	id=newid0120;
+np	id:18	[8.7, 8.9]	id=newid0121;
+np	id:19	[8.10, 8.12]	id=newid0123;
 述語	id:20	[3.15, 3.18]	id=newid0125;
 ヲ	id:21	[3.8, 3.14]	id=newid0126;ln=newid0125;
 ガ	id:22	[1.0, 1.11]	id=newid0127;ln=newid0125;
 述語	id:23	[3.23, 3.25]	id=newid0128;
 ガ	id:24	[3.25, 3.27]	id=newid0129;ln=newid0128;
-述語	id:25	[3.36, 3.38]	id=newid0130;
+述語	id:25	[4.1, 4.3]	id=newid0130;
 ガ	id:26	[3.33, 3.34]	id=newid0131;ln=newid0130;
 ニ	id:27	[3.8, 3.14]	id=newid0132;ln=newid0130;
-述語	id:28	[3.51, 3.54]	id=newid0133;
-ヲ	id:29	[3.48, 3.50]	id=newid0137;ln=newid0133;
+述語	id:28	[4.16, 4.19]	id=newid0133;
+ヲ	id:29	[4.13, 4.15]	id=newid0137;ln=newid0133;
 ガ	id:30	[1.0, 1.11]	id=newid0138;ln=newid0133;
-述語	id:31	[6.0, 6.2]	id=newid0139;
+述語	id:31	[7.0, 7.2]	id=newid0139;
 ガ	id:32	[1.13, 1.24]	id=newid0140;ln=newid0139;
-ヲ	id:33	[5.2, 5.3]	id=newid0141;ln=newid0139;
-述語	id:34	[6.7, 6.9]	id=newid0142;
-ガ	id:35	[6.4, 6.6]	id=newid0143;ln=newid0142;
-述語	id:36	[7.13, 7.15]	id=newid0144;
-ヲ	id:37	[7.10, 7.12]	id=newid0145;ln=newid0144;
+ヲ	id:33	[6.2, 6.3]	id=newid0141;ln=newid0139;
+述語	id:34	[7.7, 7.9]	id=newid0142;
+ガ	id:35	[7.4, 7.6]	id=newid0143;ln=newid0142;
+述語	id:36	[8.13, 8.15]	id=newid0144;
+ヲ	id:37	[8.10, 8.12]	id=newid0145;ln=newid0144;
 ガ	id:38	[1.13, 1.24]	id=newid0146;ln=newid0144;
-ズレ	id:39	[7.7, 7.9]	id=newid0147;
+ズレ	id:39	[8.7, 8.9]	id=newid0147;
 照応	id:40	[3.33, 3.34]	id=newid0148;
-照応	id:41	[3.48, 3.50]	id=newid0149;ln=newid0148;
-照応	id:42	[5.2, 5.3]	id=newid0150;ln=newid0149;
+照応	id:41	[4.13, 4.15]	id=newid0149;ln=newid0148;
+照応	id:42	[6.2, 6.3]	id=newid0150;ln=newid0149;
 </tags>
 </text>
 <text id=OC08_02779m_0>
@@ -538,7 +538,7 @@ np	id:15	[6.20, 6.23]	id=newid0117;
 ヲ	id:46	[3.34, 3.40]	id=newid0158;ln=newid0155;
 述語	id:47	[4.15, 4.24]	id=newid0159;
 ガ	id:48	[4.24, 4.25]	id=newid0160;ln=newid0159;
-ヲ	id:49	[3.34, 3.40]	id=newid0162;ln=newid0159;
+ヲ	id:50	[3.34, 3.40]	id=newid0162;ln=newid0159;
 </tags>
 </text>
 <text id=OC08_03536m_0>
