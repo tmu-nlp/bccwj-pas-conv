@@ -59,35 +59,15 @@ class TgrTags:
                 got_tags.append(tag)
 
         for tag in ends:
-            refer_tag = tag[0n]
-            if refer_tag != u'述語':
+            # fixed a spelling miss issue: refer_tag = tag[0n]
+            refer_tag = tag[0]
+             if refer_tag != u'述語':
                 got_tags.append(tag)
 
         return got_tags
 
     def words(self):
         return self.e_dict
-
-# Now using OrderedDefaultDict(dict) that each key is the end position of words instead of it
-# class BCCWJWords:
-#     def __init__(self):
-#         # start_keys_dict is DefaultOrderedDict that each key is the start position of words
-#         # end_key_dict is almost same it
-#         # tag is the list of information of a tag
-#         self.s_dict = DefaultOrderedDict(dict)
-#         self.e_dict = DefaultOrderedDict(dict)
-
-#     def set_word(self, start_line, start_position, end_line, end_position, morph):
-#         self.s_dict[start_line][start_position] = morph
-#         self.e_dict[end_line][end_position] = morph
-
-
-#     def get_by_start(start_line, start_pos):
-#         return self.s_dict[start_line][start_pos]
-
-#     def get_by_end(end_line, end_pos):
-#         return self.e_dict[start_line][start_pos]
-
 
 class Extracted:
     def __init__(self, id):

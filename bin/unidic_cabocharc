@@ -1,9 +1,0 @@
-charset = utf8
-posset = UNIDIC
-output-format = 0
-input-layer = 0
-output-layer = 4
-ne = 1
-parser-model = /usr/local/lib/cabocha/model//dep.unidic.model
-chunker-model = /usr/local/lib/cabocha/model//chunk.unidic.model
-ne-model = /usr/local/lib/cabocha/model//ne.unidic.model
