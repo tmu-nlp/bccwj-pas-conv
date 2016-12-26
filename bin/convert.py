@@ -61,7 +61,7 @@ class TgrTags:
         for tag in ends:
             # fixed a spelling miss issue: refer_tag = tag[0n]
             refer_tag = tag[0]
-             if refer_tag != u'述語':
+            if refer_tag != u'述語':
                 got_tags.append(tag)
 
         return got_tags
@@ -92,7 +92,7 @@ class Extracted:
         """ Convert morphlogical information of SUW to dict. """
 
         def tagged_char(element):
-            if element.tagName == 'sampling':
+            if element.tagName == 'sampling' or element.tagName == 'webBr':
                 return ""
             elif element.tagName == 'ruby':
                 return element.childNodes[0].data
@@ -237,7 +237,7 @@ class Extracted:
         psib = luw.previousSibling
         if luw.tagName == 'webBr':
             if psib != None and psib.tagName != 'webBr' and nsib != None:
-                add_line()
+                self.add_line()
         elif luw.tagName == 'quote':
             quote = luw
             for quote_luw in quote.childNodes:
@@ -304,7 +304,7 @@ class Extracted:
             contents = xml.getElementsByTagName("div")
         for each_ad in contents:
             if each_ad.getAttribute('articleID').endswith('Answer'):
-                add_line()
+                self.add_line()
             for sent in each_ad.getElementsByTagName('sentence'):
                 if self.id.endswith("m_0") and sent.parentNode.tagName != "div":  # div の条件分岐はいらない?
                     _sampling_flag = check_sampling(sent)
