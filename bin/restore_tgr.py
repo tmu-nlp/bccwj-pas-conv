@@ -15,7 +15,7 @@ def store_db(dom):
     db_value = ""
     ac_flag = 'QCQuestion'
 
-    for luw in dom.childNodes:
+    for luw in dom.getElementsByTagName('LUW'):
         nsib = luw.nextSibling
         psib = luw.previousSibling
 
@@ -50,7 +50,8 @@ def store_db(dom):
             elif suw.tagName == 'webBr':
                 db_value += '\n'
             elif suw.tagName == 'SUW':
-                db_value += suw.childNodes[0].data
+                if suw.childNodes[0].nodeType == suw.TEXT_NODE:
+                    db_value += suw.childNodes[0].data
             else:
                 print "Unknow tag name on SUW position:", suw.tagName
 
@@ -92,9 +93,10 @@ if __name__ == '__main__':
     parser.add_option('-b', '--bccwj_dir', dest='bccwj_dir')
     parser.add_option('-o', '--output_dir', dest='out_dir')
     parser.add_option('-d', '--debug', dest='debug', default=False)
+    parser.add_option('-g', '--genre', dest='genre', default='OC')
     (opts, args) = parser.parse_args()
 
-    PARSING = "OC"
+    PARSING = opts.genre
 
     if not opts.bccwj_dir or not opts.out_dir:
         print """Usage: python bin/restore_tgr.py\
