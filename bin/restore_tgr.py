@@ -19,11 +19,13 @@ def store_db(dom):
         nsib = luw.nextSibling
         psib = luw.previousSibling
 
-        if luw.tagName == 'webBr':
-            if psib != None and psib.tagName != 'webBr' and nsib != None:
-                db_value += "\n"
-        elif luw.tagName != 'LUW':
-            print "Unknown tag name on LUW position:", luw.tagName
+        #if luw.tagName == 'webBr':
+        #    if psib != None and psib.tagName != 'webBr' and nsib != None:
+        #        db_value += "\n"
+        #elif luw.tagName != 'LUW':
+        #    print "Unknown tag name on LUW position:", luw.tagName
+        if psib != None and psib.tagName == 'webBr':
+            db_value += "\n"
         article = luw.parentNode.parentNode.parentNode
 
         for suw in luw.childNodes:
@@ -80,9 +82,9 @@ def parse_bccwj(xml):
         if article.getAttribute('articleID').endswith('-Answer'):
             db_value += '\n'
         for sent in article.getElementsByTagName('sentence'):
-            if sent.parentNode.tagName == "quote" or \
-               sent.parentNode.tagName == "quotation":
-                continue
+            #if sent.parentNode.tagName == "quote" or \
+            #   sent.parentNode.tagName == "quotation":
+            #    continue
             db_value += store_db(sent)
     return db_value
 
